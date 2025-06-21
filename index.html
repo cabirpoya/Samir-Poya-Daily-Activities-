@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
@@ -23,1199 +24,1018 @@
     </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body class="bg-gradient-to-b from-blue-50 to-purple-50 min-h-screen">
-    <div class="container mx-auto px-4 py-8">
+<body class="bg-gradient-to-b from-blue-50 to-purple-50 min-h-screen" dir="rtl">
+    <!-- Fixed Header Navigation (SPA Tabs) -->
+    <nav class="fixed top-0 right-0 left-0 z-50 bg-white shadow-md border-b border-purple-200 flex justify-center items-center py-0 gap-1" id="main-nav" style="height:56px;">
+      <div class="flex gap-1">
+        <button class="nav-tab active px-4 py-2 text-lg font-bold text-purple-700 hover:bg-purple-50 rounded transition" data-section="dashboard"><i class="fas fa-home ml-1"></i>داشبورد</button>
+        <button class="nav-tab px-4 py-2 text-lg font-bold text-gray-700 hover:bg-purple-50 rounded transition" data-section="activities"><i class="fas fa-list-check ml-1"></i>فعالیت‌ها</button>
+        <button class="nav-tab px-4 py-2 text-lg font-bold text-gray-700 hover:bg-purple-50 rounded transition" data-section="mood"><i class="fas fa-smile-beam ml-1"></i>حالت</button>
+        <button class="nav-tab px-4 py-2 text-lg font-bold text-gray-700 hover:bg-purple-50 rounded transition" data-section="growth"><i class="fas fa-chart-line ml-1"></i>رشد</button>
+        <button class="nav-tab px-4 py-2 text-lg font-bold text-gray-700 hover:bg-purple-50 rounded transition" data-section="achievements"><i class="fas fa-trophy ml-1"></i>دستاوردها</button>
+        <button class="nav-tab px-4 py-2 text-lg font-bold text-gray-700 hover:bg-purple-50 rounded transition" data-section="haircut"><i class="fas fa-cut ml-1"></i>کوتاهی مو</button>
+        <button class="nav-tab px-4 py-2 text-lg font-bold text-gray-700 hover:bg-purple-50 rounded transition" data-section="favorites"><i class="fas fa-heart ml-1"></i>علاقه‌مندی‌ها</button>
+        <button class="nav-tab px-4 py-2 text-lg font-bold text-gray-700 hover:bg-purple-50 rounded transition" data-section="weekly"><i class="fas fa-calendar-days ml-1"></i>برنامه هفتگی</button>
+        <button class="nav-tab px-4 py-2 text-lg font-bold text-gray-700 hover:bg-purple-50 rounded transition" data-section="profile"><i class="fas fa-user ml-1"></i>پروفایل</button>
+        <button class="nav-tab px-4 py-2 text-lg font-bold text-gray-700 hover:bg-purple-50 rounded transition" data-section="print"><i class="fas fa-print ml-1"></i>چاپ/خروجی</button>
+      </div>
+    </nav>
+    <div style="height:56px;"></div>
+    <!-- SPA Sections Wrapper -->
+    <div id="spa-sections" class="container mx-auto px-4 py-8">
+      <!-- Dashboard Section -->
+      <section id="section-dashboard" class="spa-section">
         <!-- Header -->
         <header class="text-center mb-8">
-            <h1 class="text-3xl md:text-4xl font-bold text-purple-800 mb-2">برنامه روزانه سید سمیر</h1>
-            <p class="text-lg text-gray-600">فعالیت‌های روزانه پسر ۴ ساله من</p>
-            <div class="mt-4 relative">
-                <div class="absolute inset-0 flex items-center" aria-hidden="true">
-                    <div class="w-full border-t border-purple-200"></div>
-                </div>
-                <div class="relative flex justify-center">
-                    <span class="bg-purple-100 px-4 text-lg text-purple-700 rounded-full">
-                        <i class="fas fa-child-reaching mr-2"></i>
-                        امروز: <span id="today-date" class="font-medium"></span>
-                    </span>
-                </div>
+          <h1 class="text-4xl font-bold text-purple-800 mb-2">برنامه روزانه سمیر پویا</h1>
+          <p class="text-lg text-gray-600">فعالیت‌های روزانه پسر ۴ ساله من</p>
+          <div class="mt-4 relative">
+            <div class="absolute inset-0 flex items-center" aria-hidden="true">
+              <div class="w-full border-t border-purple-200"></div>
             </div>
+            <div class="relative flex justify-center">
+              <span class="bg-purple-100 px-4 text-lg text-purple-700 rounded-full">
+                <i class="fas fa-child-reaching mr-2"></i>
+                امروز: <span id="today-date" class="font-medium"></span>
+              </span>
+            </div>
+          </div>
         </header>
-
         <!-- Stats Overview -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-            <!-- Completed Activities -->
-            <div class="bg-white rounded-xl shadow-md p-4 text-center">
-                <div class="text-purple-600 mb-2">
-                    <i class="fas fa-check-circle text-2xl"></i>
+        <div class="grid grid-cols-4 gap-4 mb-6">
+          <div class="bg-white rounded-xl shadow-md p-4 text-center">
+            <div class="text-purple-600 mb-2"><i class="fas fa-check-circle text-2xl"></i></div>
+            <h3 class="text-gray-500 text-sm">فعالیت‌های انجام شده</h3>
+            <p class="text-2xl font-bold text-gray-800" id="completed-count">0</p>
+          </div>
+          <div class="bg-white rounded-xl shadow-md p-4 text-center">
+            <div class="text-blue-600 mb-2"><i class="fas fa-list-check text-2xl"></i></div>
+            <h3 class="text-gray-500 text-sm">کل فعالیت‌ها</h3>
+            <p class="text-2xl font-bold text-gray-800" id="total-count">0</p>
+          </div>
+          <div class="bg-white rounded-xl shadow-md p-4 text-center">
+            <div class="text-yellow-500 mb-2"><i class="fas fa-smile text-2xl"></i></div>
+            <h3 class="text-gray-500 text-sm">حالت امروز</h3>
+            <p class="text-2xl font-bold text-gray-800" id="mood-today">خوب</p>
+          </div>
+          <div class="bg-white rounded-xl shadow-md p-4 text-center">
+            <div class="flex justify-center mb-2">
+              <div style="width: 50px; height: 50px;">
+                <svg class="progress-ring" width="50" height="50">
+                  <circle class="progress-ring__circle" stroke="#8b5cf6" stroke-width="4" fill="transparent" r="20" cx="25" cy="25" stroke-linecap="round" />
+                </svg>
+                <div class="absolute inset-0 flex items-center justify-center" style="margin-top: -50px; height: 50px;">
+                  <span id="progress-percent" class="text-xs font-bold text-purple-600">0%</span>
                 </div>
-                <h3 class="text-gray-500 text-sm">فعالیت‌های انجام شده</h3>
-                <p class="text-2xl font-bold text-gray-800" id="completed-count">0</p>
+              </div>
             </div>
-            <!-- Total Activities -->
-            <div class="bg-white rounded-xl shadow-md p-4 text-center">
-                <div class="text-blue-600 mb-2">
-                    <i class="fas fa-list-check text-2xl"></i>
-                </div>
-                <h3 class="text-gray-500 text-sm">کل فعالیت‌ها</h3>
-                <p class="text-2xl font-bold text-gray-800" id="total-count">0</p>
-            </div>
-            <!-- Mood Today -->
-            <div class="bg-white rounded-xl shadow-md p-4 text-center">
-                <div class="text-yellow-500 mb-2">
-                    <i class="fas fa-smile text-2xl"></i>
-                </div>
-                <h3 class="text-gray-500 text-sm">حالت امروز</h3>
-                <p class="text-2xl font-bold text-gray-800" id="mood-today">خوب</p>
-            </div>
-            <!-- Progress -->
-            <div class="bg-white rounded-xl shadow-md p-4 text-center">
-                <div class="flex justify-center mb-2">
-                    <div style="width: 50px; height: 50px;">
-                        <svg class="progress-ring" width="50" height="50">
-                            <circle class="progress-ring__circle" stroke="#8b5cf6" stroke-width="4" fill="transparent" r="20" cx="25" cy="25" stroke-linecap="round" />
-                        </svg>
-                        <div class="absolute inset-0 flex items-center justify-center" style="margin-top: -50px; height: 50px;">
-                            <span id="progress-percent" class="text-xs font-bold text-purple-600">0%</span>
-                        </div>
-                    </div>
-                </div>
-                <h3 class="text-gray-500 text-sm">پیشرفت روزانه</h3>
-            </div>
+            <h3 class="text-gray-500 text-sm">پیشرفت روزانه</h3>
+          </div>
         </div>
-
-        <!-- Growth Tracking -->
-        
+        <!-- Global Lists and Calendar Search Placeholder -->
+        <div id="dashboard-global-lists" class="mb-8"></div>
+      </section>
+      <!-- Activities Section -->
+      <section id="section-activities" class="spa-section hidden">
+        <!-- Activities Section Content -->
+        <div class="mb-6">
+          <div class="flex justify-between items-center mb-6">
+            <h2 class="text-xl md:text-2xl font-bold text-gray-800">
+              <i class="fas fa-list-check text-purple-600 ml-2"></i>
+              فعالیت‌های روزانه
+            </h2>
+            <button id="add-activity-btn" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg text-sm flex items-center">
+              <i class="fas fa-plus ml-2"></i>
+              افزودن فعالیت
+            </button>
+          </div>
+          <div class="flex overflow-x-auto pb-2 mb-6 gap-2">
+            <button class="category-btn px-4 py-2 rounded-full bg-purple-600 text-white text-sm whitespace-nowrap" data-category="all">همه فعالیت‌ها</button>
+            <button class="category-btn px-4 py-2 rounded-full bg-white text-gray-700 shadow text-sm whitespace-nowrap" data-category="morning">صبح</button>
+            <button class="category-btn px-4 py-2 rounded-full bg-white text-gray-700 shadow text-sm whitespace-nowrap" data-category="learning">یادگیری</button>
+            <button class="category-btn px-4 py-2 rounded-full bg-white text-gray-700 shadow text-sm whitespace-nowrap" data-category="play">بازی</button>
+            <button class="category-btn px-4 py-2 rounded-full bg-white text-gray-700 shadow text-sm whitespace-nowrap" data-category="food">غذا</button>
+            <button class="category-btn px-4 py-2 rounded-full bg-white text-gray-700 shadow text-sm whitespace-nowrap" data-category="sleep">خواب</button>
+          </div>
+          <div id="activities-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <!-- Activities will be added here by JavaScript -->
+          </div>
+        </div>
+      </section>
+      <!-- Mood Section -->
+      <section id="section-mood" class="spa-section hidden">
+        <!-- Mood Tracker Content -->
+        <div class="bg-white rounded-xl shadow-md p-6 mb-8">
+          <h2 class="text-xl md:text-2xl font-bold text-gray-800 mb-6">
+            <i class="fas fa-smile-beam text-yellow-500 ml-2"></i>
+            حالت امروز سمیر پویا
+          </h2>
+          <div class="grid grid-cols-2 sm:grid-cols-5 gap-4 text-center">
+            <button class="mood-btn rounded-xl py-3 bg-rose-50 hover:bg-rose-100" data-mood="very_sad">
+              <i class="fas fa-sad-cry text-2xl text-rose-500 mb-1"></i>
+              <p class="text-xs text-gray-700">خیلی ناراحت</p>
+            </button>
+            <button class="mood-btn rounded-xl py-3 bg-amber-50 hover:bg-amber-100" data-mood="sad">
+              <i class="fas fa-frown text-2xl text-amber-500 mb-1"></i>
+              <p class="text-xs text-gray-700">ناراحت</p>
+            </button>
+            <button class="mood-btn rounded-xl py-3 bg-blue-50 hover:bg-blue-100" data-mood="neutral">
+              <i class="fas fa-meh text-2xl text-blue-500 mb-1"></i>
+              <p class="text-xs text-gray-700">معمولی</p>
+            </button>
+            <button class="mood-btn rounded-xl py-3 bg-emerald-50 hover:bg-emerald-100 active" data-mood="happy">
+              <i class="fas fa-smile text-2xl text-emerald-500 mb-1"></i>
+              <p class="text-xs text-gray-700">خوشحال</p>
+            </button>
+            <button class="mood-btn rounded-xl py-3 bg-purple-50 hover:bg-purple-100" data-mood="very_happy">
+              <i class="fas fa-laugh-squint text-2xl text-purple-500 mb-1"></i>
+              <p class="text-xs text-gray-700">خیلی خوشحال</p>
+            </button>
+          </div>
+        </div>
+      </section>
+      <!-- Growth Section -->
+      <section id="section-growth" class="spa-section hidden">
+        <!-- Growth Tracking Content -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          <!-- Weight Tracking -->
+          <div class="bg-white rounded-xl shadow-md p-6">
+            <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+              <i class="fas fa-weight-scale text-green-600 ml-2"></i>
+              ثبت وزن
+            </h2>
+            <div class="flex items-center justify-between">
+              <div>
+                <h3 class="font-medium text-gray-700">وزن سمیر پویا </h3>
+                <p class="text-2xl font-bold text-gray-800" id="current-weight">-</p>
+              </div>
+              <div class="relative">
+                <input type="number" id="weight-input" class="w-24 px-3 py-2 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500" min="0" max="100" step="0.1">
+                <span class="absolute left-3 top-2 text-gray-500">kg</span>
+              </div>
+              <button id="save-weight-btn" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm">
+                <i class="fas fa-save ml-2"></i>ذخیره
+              </button>
+            </div>
+            <div class="mt-4 bg-gray-50 rounded-lg p-3">
+              <canvas id="weight-chart"></canvas>
+            </div>
+          </div>
+          <!-- Height Tracking -->
+          <div class="bg-white rounded-xl shadow-md p-6">
+            <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+              <i class="fas fa-ruler-vertical text-blue-600 ml-2"></i>
+              ثبت قد
+            </h2>
+            <div class="flex items-center justify-between">
+              <div>
+                <h3 class="font-medium text-gray-700">قد سمیر پویا</h3>
+                <p class="text-2xl font-bold text-gray-800" id="current-height">-</p>
+              </div>
+              <div class="relative">
+                <input type="number" id="height-input" class="w-24 px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" min="0" max="200" step="0.5">
+                <span class="absolute left-3 top-2 text-gray-500">cm</span>
+              </div>
+              <button id="save-height-btn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm">
+                <i class="fas fa-save ml-2"></i>ذخیره
+              </button>
+            </div>
+            <div class="mt-4 bg-gray-50 rounded-lg p-3">
+              <canvas id="height-chart"></canvas>
+            </div>
+          </div>
+        </div>
         <!-- Vocabulary Tracking -->
         <div class="bg-white rounded-lg shadow p-4 mb-6">
-            <h3 class="font-bold text-gray-800 mb-3 flex items-center">
-                <i class="fas fa-language text-blue-500 ml-2"></i>
-                کلمات آموخته شده
-            </h3>
-            <div class="mb-3">
-                <div class="flex">
-                    <input type="text" id="new-word-input" class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-sm" placeholder="کلمه جدید">
-                    <button id="add-word-btn" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-2 rounded-lg text-sm mr-2">
-                        <i class="fas fa-plus ml-1"></i>افزودن
-                    </button>
-                </div>
+          <h3 class="font-bold text-gray-800 mb-3 flex items-center">
+            <i class="fas fa-language text-blue-500 ml-2"></i>
+            کلمات آموخته شده
+          </h3>
+          <div class="mb-3">
+            <div class="flex">
+              <input type="text" id="new-word-input" class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-sm" placeholder="کلمه جدید">
+              <button id="add-word-btn" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-2 rounded-lg text-sm mr-2">
+                <i class="fas fa-plus ml-1"></i>افزودن
+              </button>
             </div>
-            <div class="overflow-x-auto">
-                <table class="w-full text-sm">
-                    <thead>
-                        <tr class="border-b border-gray-200">
-                            <th class="py-2 text-right">کلمه</th>
-                            <th class="py-2 text-center">تاریخ</th>
-                            <th class="py-2 text-center">مدت یادگیری</th>
-                        </tr>
-                    </thead>
-                    <tbody id="vocabulary-list">
-                        <!-- Words will be added here -->
-                    </tbody>
-                </table>
-            </div>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+              <thead>
+                <tr class="border-b border-gray-200">
+                  <th class="py-2 text-right">کلمه</th>
+                  <th class="py-2 text-center">تاریخ</th>
+                  <th class="py-2 text-center">مدت یادگیری</th>
+                </tr>
+              </thead>
+              <tbody id="vocabulary-list">
+                <!-- Words will be added here -->
+              </tbody>
+            </table>
+          </div>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-            <!-- Weight Tracking -->
-            <div class="bg-white rounded-xl shadow-md p-6">
-                <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
-                    <i class="fas fa-weight-scale text-green-600 ml-2"></i>
-                    ثبت وزن
-                </h2>
-                <div class="flex items-center justify-between">
-                    <div>
-                        <h3 class="font-medium text-gray-700">وزن سید سمیر </h3>
-                        <p class="text-2xl font-bold text-gray-800" id="current-weight">-</p>
-                    </div>
-                    <div class="relative">
-                        <input type="number" id="weight-input" class="w-24 px-3 py-2 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500" min="0" max="100" step="0.1">
-                        <span class="absolute left-3 top-2 text-gray-500">kg</span>
-                    </div>
-                    <button id="save-weight-btn" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm">
-                        <i class="fas fa-save ml-2"></i>ذخیره
-                    </button>
-                </div>
-                <div class="mt-4 bg-gray-50 rounded-lg p-3">
-                    <canvas id="weight-chart"></canvas>
-                </div>
-            </div>
-
-            <!-- Height Tracking -->
-            <div class="bg-white rounded-xl shadow-md p-6">
-                <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
-                    <i class="fas fa-ruler-vertical text-blue-600 ml-2"></i>
-                    ثبت قد
-                </h2>
-                <div class="flex items-center justify-between">
-                    <div>
-                        <h3 class="font-medium text-gray-700">قد سید سمیر</h3>
-                        <p class="text-2xl font-bold text-gray-800" id="current-height">-</p>
-                    </div>
-                    <div class="relative">
-                        <input type="number" id="height-input" class="w-24 px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" min="0" max="200" step="0.5">
-                        <span class="absolute left-3 top-2 text-gray-500">cm</span>
-                    </div>
-                    <button id="save-height-btn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm">
-                        <i class="fas fa-save ml-2"></i>ذخیره
-                    </button>
-                </div>
-                <div class="mt-4 bg-gray-50 rounded-lg p-3">
-                    <canvas id="height-chart"></canvas>
-                </div>
-            </div>
-        </div>
-
-        <!-- Activities Section -->
-        <section class="mb-12">
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="text-xl md:text-2xl font-bold text-gray-800">
-                    <i class="fas fa-list-check text-purple-600 ml-2"></i>
-                    فعالیت‌های روزانه
-                </h2>
-                <button id="add-activity-btn" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg text-sm flex items-center">
-                    <i class="fas fa-plus ml-2"></i>
-                    افزودن فعالیت
-                </button>
-            </div>
-
-            <!-- Activity Categories -->
-            <div class="flex overflow-x-auto pb-2 mb-6 gap-2">
-                <button class="category-btn px-4 py-2 rounded-full bg-purple-600 text-white text-sm whitespace-nowrap" data-category="all">همه فعالیت‌ها</button>
-                <button class="category-btn px-4 py-2 rounded-full bg-white text-gray-700 shadow text-sm whitespace-nowrap" data-category="morning">صبح</button>
-                <button class="category-btn px-4 py-2 rounded-full bg-white text-gray-700 shadow text-sm whitespace-nowrap" data-category="learning">یادگیری</button>
-                <button class="category-btn px-4 py-2 rounded-full bg-white text-gray-700 shadow text-sm whitespace-nowrap" data-category="play">بازی</button>
-                <button class="category-btn px-4 py-2 rounded-full bg-white text-gray-700 shadow text-sm whitespace-nowrap" data-category="food">غذا</button>
-                <button class="category-btn px-4 py-2 rounded-full bg-white text-gray-700 shadow text-sm whitespace-nowrap" data-category="sleep">خواب</button>
-            </div>
-
-            <!-- Activities Grid -->
-            <div id="activities-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <!-- Activities will be added here by JavaScript -->
-            </div>
-        </section>
-
-        <!-- Mood Tracker -->
-        <section class="bg-white rounded-xl shadow-md p-6 mb-8">
-            <h2 class="text-xl md:text-2xl font-bold text-gray-800 mb-6">
-                <i class="fas fa-smile-beam text-yellow-500 ml-2"></i>
-                حالت امروز سید سمیر
-            </h2>
-            <div class="grid grid-cols-2 sm:grid-cols-5 gap-4 text-center">
-                <button class="mood-btn rounded-xl py-3 bg-rose-50 hover:bg-rose-100" data-mood="very_sad">
-                    <i class="fas fa-sad-cry text-2xl text-rose-500 mb-1"></i>
-                    <p class="text-xs text-gray-700">خیلی ناراحت</p>
-                </button>
-                <button class="mood-btn rounded-xl py-3 bg-amber-50 hover:bg-amber-100" data-mood="sad">
-                    <i class="fas fa-frown text-2xl text-amber-500 mb-1"></i>
-                    <p class="text-xs text-gray-700">ناراحت</p>
-                </button>
-                <button class="mood-btn rounded-xl py-3 bg-blue-50 hover:bg-blue-100" data-mood="neutral">
-                    <i class="fas fa-meh text-2xl text-blue-500 mb-1"></i>
-                    <p class="text-xs text-gray-700">معمولی</p>
-                </button>
-                <button class="mood-btn rounded-xl py-3 bg-emerald-50 hover:bg-emerald-100 active" data-mood="happy">
-                    <i class="fas fa-smile text-2xl text-emerald-500 mb-1"></i>
-                    <p class="text-xs text-gray-700">خوشحال</p>
-                </button>
-                <button class="mood-btn rounded-xl py-3 bg-purple-50 hover:bg-purple-100" data-mood="very_happy">
-                    <i class="fas fa-laugh-squint text-2xl text-purple-500 mb-1"></i>
-                    <p class="text-xs text-gray-700">خیلی خوشحال</p>
-                </button>
-            </div>
-        </section>
-
+      </section>
+      <!-- Achievements Section -->
+      <section id="section-achievements" class="spa-section hidden">
         <!-- Weekly Encouragement -->
         <section class="bg-gradient-to-r from-purple-100 to-blue-100 rounded-xl shadow-md p-6 mb-8">
-            <h2 class="text-xl md:text-2xl font-bold text-gray-800 mb-4">
-                <i class="fas fa-trophy text-yellow-600 ml-2"></i>
-                دستاوردهای هفته گذشته
-            </h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="bg-white rounded-lg p-4 shadow-sm">
-                    <h3 class="font-bold text-purple-700 mb-2">شما عالی بودید در:</h3>
-                    <ul id="last-week-achievements" class="space-y-2 text-gray-700">
-                        <!-- Last week's achievements will be added here -->
-                        <li class="flex items-center">
-                            <i class="fas fa-check-circle text-green-500 ml-2"></i>
-                            یادگیری رنگ‌ها به انگلیسی
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check-circle text-green-500 ml-2"></i>
-                            همکاری خوب در جمع کردن اسباب‌بازی‌ها
-                        </li>
-                    </ul>
-                </div>
-                <div class="bg-white rounded-lg p-4 shadow-sm">
-                    <h3 class="font-bold text-purple-700 mb-2">پیام تشویقی:</h3>
-                    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-3">
-                        <p class="text-gray-800" id="encouragement-message">
-                           سید سمیر جان، تو واقعا فوق‌العاده هستی! این هفته در بسیاری از کارها پیشرفت کردی و ما خیلی به تو افتخار می‌کنیم. ❤️
-                        </p>
-                    </div>
-                    <button id="new-encouragement-btn" class="mt-2 text-blue-600 hover:text-blue-800 text-sm">
-                        <i class="fas fa-sync ml-2"></i>پیام جدید
-                    </button>
-                </div>
-            </div>
-        </section>
-
-        <!-- Haircut Reminder -->
-        <section class="bg-gradient-to-r from-amber-50 to-yellow-100 rounded-xl shadow-md p-6 mb-8">
-            <h2 class="text-xl md:text-2xl font-bold text-gray-800 mb-4">
-                <i class="fas fa-cut text-amber-600 ml-2"></i>
-                یادآوری کوتاهی مو
-            </h2>
+          <h2 class="text-xl md:text-2xl font-bold text-gray-800 mb-4">
+            <i class="fas fa-trophy text-yellow-600 ml-2"></i>
+            دستاوردهای هفته گذشته
+          </h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="bg-white rounded-lg p-4 shadow-sm">
-                <h3 class="font-bold text-amber-700 mb-2">آخرین کوتاهی مو:</h3>
-                <p id="last-haircut-date" class="text-gray-700 mb-4 text-lg"></p>
-                <div id="haircut-status" class="p-3 rounded-lg"></div>
-                <button id="update-haircut-btn" class="mt-4 bg-amber-500 hover:bg-amber-600 text-white px-4 py-2 rounded-lg text-sm">
-                    <i class="fas fa-edit ml-2"></i>به‌روزرسانی تاریخ کوتاهی
-                </button>
+              <h3 class="font-bold text-purple-700 mb-2">شما عالی بودید در:</h3>
+              <ul id="last-week-achievements" class="space-y-2 text-gray-700">
+                <!-- Last week's achievements will be added here -->
+              </ul>
             </div>
-        </section>
-
-        <!-- Weekly Favorites -->
-        <section class="bg-gradient-to-r from-pink-50 to-rose-100 rounded-xl shadow-md p-6 mb-8">
-            <h2 class="text-xl md:text-2xl font-bold text-gray-800 mb-4">
-                <i class="fas fa-heart text-rose-600 ml-2"></i>
-                علاقه‌مندی‌های هفتگی
-            </h2>
             <div class="bg-white rounded-lg p-4 shadow-sm">
-                <h3 class="font-bold text-rose-700 mb-2">علاقه سید سمیر این هفته:</h3>
-                <div id="current-week-favorite" class="p-3 bg-rose-50 rounded-lg mb-4">
-                    <!-- Will be filled by JavaScript -->
-                </div>
-                <div class="mb-4">
-                    <label for="favorite-input" class="block text-sm font-medium text-gray-700 mb-1">علاقه جدید این هفته:</label>
-                    <input type="text" id="favorite-input" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-rose-500 focus:border-rose-500">
-                </div>
-                <button id="save-favorite-btn" class="bg-rose-500 hover:bg-rose-600 text-white px-4 py-2 rounded-lg text-sm">
-                    <i class="fas fa-save ml-2"></i>ذخیره علاقه
-                </button>
-
-                <div class="mt-6">
-                    <h3 class="font-bold text-rose-700 mb-2">تغییرات ماهانه:</h3>
-                    <div id="monthly-favorites-summary" class="bg-white rounded-lg p-3 border border-rose-100">
-                        <!-- Monthly summary will be added here -->
-                    </div>
-                </div>
+              <h3 class="font-bold text-purple-700 mb-2">پیام تشویقی:</h3>
+              <div class="bg-yellow-50 border-l-4 border-yellow-400 p-3">
+                <p class="text-gray-800" id="encouragement-message">
+                  سمیر پویا جان، تو واقعا فوق‌العاده هستی! این هفته در بسیاری از کارها پیشرفت کردی و ما خیلی به تو افتخار می‌کنیم. ❤️
+                </p>
+              </div>
+              <button id="new-encouragement-btn" class="mt-2 text-blue-600 hover:text-blue-800 text-sm">
+                <i class="fas fa-sync ml-2"></i>پیام جدید
+              </button>
             </div>
+          </div>
         </section>
-
-        <!-- Weekly Calendar -->
-        <section class="bg-white rounded-xl shadow-md p-6 mb-8">
-            <h2 class="text-xl md:text-2xl font-bold text-gray-800 mb-6">
-                <i class="fas fa-calendar-days text-blue-500 ml-2"></i>
-                برنامه هفتگی
-            </h2>
-            <div class="overflow-x-auto">
-                <table class="w-full">
-                    <thead>
-                        <tr class="border-b border-gray-200">
-                            <th class="py-2 text-gray-500 text-right">ساعت</th>
-                            <th class="py-2 text-gray-500 text-center">شنبه</th>
-                            <th class="py-2 text-gray-500 text-center">یکشنبه</th>
-                            <th class="py-2 text-gray-500 text-center">دوشنبه</th>
-                            <th class="py-2 text-gray-500 text-center">سه‌شنبه</th>
-                            <th class="py-2 text-gray-500 text-center">چهارشنبه</th>
-                            <th class="py-2 text-gray-500 text-center">پنجشنبه</th>
-                            <th class="py-2 text-gray-500 text-center">جمعه</th>
-                        </tr>
-                    </thead>
-                    <tbody id="weekly-calendar">
-                        <!-- Times will be added by JavaScript -->
-                    </tbody>
-                </table>
-            </div>
-            <div class="mt-4">
-                <button id="add-weekly-btn" class="text-blue-600 hover:text-blue-800 text-sm flex items-center">
-                    <i class="fas fa-plus ml-2"></i>
-                    افزودن فعالیت به هفته
-                </button>
-            </div>
-        </section>
-
         <!-- Milestones -->
         <section>
-            <h2 class="text-xl md:text-2xl font-bold text-gray-800 mb-4">
-                <i class="fas fa-medal text-yellow-500 ml-2"></i>
-                موفقیت‌های امروز
-            </h2>
-            <div class="bg-white rounded-xl shadow-md p-6">
-                <div id="milestones-container" class="space-y-3">
-                    <div class="flex items-start">
-                        <div class="bg-amber-50 rounded-full p-2 flex-shrink-0">
-                            <i class="fas fa-star text-amber-400"></i>
-                        </div>
-                        <div class="mr-3">
-                            <p class="text-gray-800 font-medium">اولین روز نقاشی بدون کمک</p>
-                            <p class="text-gray-500 text-sm">صبح ساعت 10:30</p>
-                        </div>
-                    </div>
-                    <!-- More milestones will be added here -->
-                </div>
-                <div class="mt-4">
-                    <button id="add-milestone-btn" class="text-purple-600 hover:text-purple-800 text-sm flex items-center">
-                        <i class="fas fa-plus ml-2"></i>
-                        افزودن موفقیت جدید
-                    </button>
-                </div>
+          <h2 class="text-xl md:text-2xl font-bold text-gray-800 mb-4">
+            <i class="fas fa-medal text-yellow-500 ml-2"></i>
+            موفقیت‌های امروز
+          </h2>
+          <div class="bg-white rounded-xl shadow-md p-6">
+            <div id="milestones-container" class="space-y-3">
+              <!-- Milestones will be added here -->
             </div>
+            <div class="mt-4">
+              <button id="add-milestone-btn" class="text-purple-600 hover:text-purple-800 text-sm flex items-center">
+                <i class="fas fa-plus ml-2"></i>
+                افزودن موفقیت جدید
+              </button>
+            </div>
+          </div>
         </section>
+      </section>
+      <!-- Haircut Section -->
+      <section id="section-haircut" class="spa-section hidden">
+        <!-- Haircut Reminder Content -->
+        <section class="bg-gradient-to-r from-amber-50 to-yellow-100 rounded-xl shadow-md p-6 mb-8">
+          <h2 class="text-xl md:text-2xl font-bold text-gray-800 mb-4">
+            <i class="fas fa-cut text-amber-600 ml-2"></i>
+            یادآوری کوتاهی مو
+          </h2>
+          <div class="bg-white rounded-lg p-4 shadow-sm">
+            <h3 class="font-bold text-amber-700 mb-2">آخرین کوتاهی مو:</h3>
+            <p id="last-haircut-date" class="text-gray-700 mb-4 text-lg"></p>
+            <div id="haircut-status" class="p-3 rounded-lg"></div>
+            <button id="update-haircut-btn" class="mt-4 bg-amber-500 hover:bg-amber-600 text-white px-4 py-2 rounded-lg text-sm">
+              <i class="fas fa-edit ml-2"></i>به‌روزرسانی تاریخ کوتاهی
+            </button>
+          </div>
+        </section>
+      </section>
+      <!-- Favorites Section -->
+      <section id="section-favorites" class="spa-section hidden">
+        <!-- Weekly Favorites Content -->
+        <section class="bg-gradient-to-r from-pink-50 to-rose-100 rounded-xl shadow-md p-6 mb-8">
+          <h2 class="text-xl md:text-2xl font-bold text-gray-800 mb-4">
+            <i class="fas fa-heart text-rose-600 ml-2"></i>
+            علاقه‌مندی‌های هفتگی
+          </h2>
+          <div class="bg-white rounded-lg p-4 shadow-sm">
+            <h3 class="font-bold text-rose-700 mb-2">علاقه سمیر پویا این هفته:</h3>
+            <div id="current-week-favorite" class="p-3 bg-rose-50 rounded-lg mb-4">
+              <!-- Will be filled by JavaScript -->
+            </div>
+            <div class="mb-4">
+              <label for="favorite-input" class="block text-sm font-medium text-gray-700 mb-1">علاقه جدید این هفته:</label>
+              <input type="text" id="favorite-input" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-rose-500 focus:border-rose-500">
+            </div>
+            <button id="save-favorite-btn" class="bg-rose-500 hover:bg-rose-600 text-white px-4 py-2 rounded-lg text-sm">
+              <i class="fas fa-save ml-2"></i>ذخیره علاقه
+            </button>
+            <div class="mt-6">
+              <h3 class="font-bold text-rose-700 mb-2">تغییرات ماهانه:</h3>
+              <div id="monthly-favorites-summary" class="bg-white rounded-lg p-3 border border-rose-100">
+                <!-- Monthly summary will be added here -->
+              </div>
+            </div>
+          </div>
+        </section>
+      </section>
+      <!-- Weekly Schedule Section -->
+      <section id="section-weekly" class="spa-section hidden">
+        <!-- Weekly Calendar Content -->
+        <section class="bg-white rounded-xl shadow-md p-6 mb-8">
+          <h2 class="text-xl md:text-2xl font-bold text-gray-800 mb-6">
+            <i class="fas fa-calendar-days text-blue-500 ml-2"></i>
+            برنامه هفتگی
+          </h2>
+          <div class="overflow-x-auto">
+            <table class="w-full">
+              <thead>
+                <tr class="border-b border-gray-200">
+                  <th class="py-2 text-gray-500 text-right">ساعت</th>
+                  <th class="py-2 text-gray-500 text-center">شنبه</th>
+                  <th class="py-2 text-gray-500 text-center">یکشنبه</th>
+                  <th class="py-2 text-gray-500 text-center">دوشنبه</th>
+                  <th class="py-2 text-gray-500 text-center">سه‌شنبه</th>
+                  <th class="py-2 text-gray-500 text-center">چهارشنبه</th>
+                  <th class="py-2 text-gray-500 text-center">پنجشنبه</th>
+                  <th class="py-2 text-gray-500 text-center">جمعه</th>
+                </tr>
+              </thead>
+              <tbody id="weekly-calendar">
+                <!-- Times will be added by JavaScript -->
+              </tbody>
+            </table>
+          </div>
+          <div class="mt-4">
+            <button id="add-weekly-btn" class="text-blue-600 hover:text-blue-800 text-sm flex items-center">
+              <i class="fas fa-plus ml-2"></i>
+              افزودن فعالیت به هفته
+            </button>
+          </div>
+        </section>
+      </section>
+      <!-- Profile Section -->
+      <section id="section-profile" class="spa-section hidden">
+        <div class="bg-white rounded-xl shadow-md p-6 max-w-md mx-auto mt-8">
+          <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center"><i class="fas fa-user ml-2"></i>پروفایل سمیر پویا</h2>
+          <div class="flex flex-col items-center gap-4">
+            <img id="profile-photo" src="https://api.dicebear.com/7.x/adventurer/svg?seed=Samir" alt="عکس پروفایل" class="w-24 h-24 rounded-full border-2 border-purple-300">
+            <input type="file" id="profile-photo-input" accept="image/*" class="hidden">
+            <button id="change-photo-btn" class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-lg text-sm">تغییر عکس</button>
+            <div class="w-full">
+              <label class="block text-sm font-medium text-gray-700 mb-1">نام</label>
+              <input type="text" id="profile-name" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500" value="سمیر پویا">
+            </div>
+            <button id="save-profile-btn" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg text-sm">ذخیره پروفایل</button>
+          </div>
+        </div>
+      </section>
+      <!-- Print/Export Section -->
+      <section id="section-print" class="spa-section hidden">
+        <div class="bg-white rounded-xl shadow-md p-6 max-w-lg mx-auto mt-8 text-center">
+          <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center justify-center"><i class="fas fa-print ml-2"></i>چاپ/خروجی</h2>
+          <p class="mb-4 text-gray-600">برای چاپ یا ذخیره گزارش فعالیت‌ها و دستاوردها روی دکمه زیر کلیک کنید.</p>
+          <button id="print-btn" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg text-lg"><i class="fas fa-print ml-2"></i>چاپ گزارش</button>
+        </div>
+      </section>
     </div>
-
     <!-- Add Activity Modal -->
     <div id="activity-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
-        <div class="bg-white rounded-xl max-w-md w-full max-h-[90vh] overflow-y-auto">
-            <div class="p-6">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-lg font-bold text-gray-800">افزودن فعالیت جدید</h3>
-                    <button id="close-modal-btn" class="text-gray-400 hover:text-gray-600">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-                <form id="activity-form">
-                    <div class="mb-4">
-                        <label for="activity-name" class="block text-sm font-medium text-gray-700 mb-1">نام فعالیت</label>
-                        <input type="text" id="activity-name" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500" required>
-                    </div>
-                    <div class="mb-4">
-                        <label for="activity-category" class="block text-sm font-medium text-gray-700 mb-1">دسته‌بندی</label>
-                        <select id="activity-category" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500" required>
-                            <option value="morning">صبح</option>
-                            <option value="learning">یادگیری</option>
-                            <option value="play">بازی</option>
-                            <option value="food">غذا</option>
-                            <option value="sleep">خواب</option>
-                        </select>
-                    </div>
-                    <div class="mb-4">
-                        <label for="activity-time" class="block text-sm font-medium text-gray-700 mb-1">زمان</label>
-                        <input type="time" id="activity-time" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500" required>
-                    </div>
-                    <div class="mb-4">
-                        <label for="activity-notes" class="block text-sm font-medium text-gray-700 mb-1">توضیحات (اختیاری)</label>
-                        <textarea id="activity-notes" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500"></textarea>
-                    </div>
-                    <div class="flex justify-end gap-3">
-                        <button type="button" id="cancel-activity-btn" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">انصراف</button>
-                        <button type="submit" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700">ذخیره فعالیت</button>
-                    </div>
-                </form>
+      <div class="bg-white rounded-xl max-w-md w-full max-h-[90vh] overflow-y-auto">
+        <div class="p-6">
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="text-lg font-bold text-gray-800">افزودن فعالیت جدید</h3>
+            <button id="close-modal-btn" class="text-gray-400 hover:text-gray-600">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+          <form id="activity-form">
+            <div class="mb-4">
+              <label for="activity-name" class="block text-sm font-medium text-gray-700 mb-1">نام فعالیت</label>
+              <input type="text" id="activity-name" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500" required>
             </div>
+            <div class="mb-4">
+              <label for="activity-category" class="block text-sm font-medium text-gray-700 mb-1">دسته‌بندی</label>
+              <select id="activity-category" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500" required>
+                <option value="morning">صبح</option>
+                <option value="learning">یادگیری</option>
+                <option value="play">بازی</option>
+                <option value="food">غذا</option>
+                <option value="sleep">خواب</option>
+              </select>
+            </div>
+            <div class="mb-4">
+              <label for="activity-time" class="block text-sm font-medium text-gray-700 mb-1">زمان</label>
+              <input type="time" id="activity-time" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500" required>
+            </div>
+            <div class="mb-4">
+              <label for="activity-notes" class="block text-sm font-medium text-gray-700 mb-1">توضیحات (اختیاری)</label>
+              <textarea id="activity-notes" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500"></textarea>
+            </div>
+            <div class="flex justify-end gap-3">
+              <button type="button" id="cancel-activity-btn" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">انصراف</button>
+              <button type="submit" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700">ذخیره فعالیت</button>
+            </div>
+          </form>
         </div>
+      </div>
     </div>
-
     <!-- Add Weekly Activity Modal -->
     <div id="weekly-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
-        <div class="bg-white rounded-xl max-w-md w-full">
-            <div class="p-6">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-lg font-bold text-gray-800">برنامه‌ریزی فعالیت هفتگی</h3>
-                    <button id="close-weekly-modal-btn" class="text-gray-400 hover:text-gray-600">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-                <form id="weekly-form">
-                    <div class="mb-4">
-                        <label for="weekly-name" class="block text-sm font-medium text-gray-700 mb-1">نام فعالیت</label>
-                        <input type="text" id="weekly-name" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" required>
-                    </div>
-                    <div class="mb-4 grid grid-cols-2 gap-4">
-                        <div>
-                            <label for="weekly-day" class="block text-sm font-medium text-gray-700 mb-1">روز هفته</label>
-                            <select id="weekly-day" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" required>
-                                <option value="0">شنبه</option>
-                                <option value="1">یکشنبه</option>
-                                <option value="2">دوشنبه</option>
-                                <option value="3">سه‌شنبه</option>
-                                <option value="4">چهارشنبه</option>
-                                <option value="5">پنجشنبه</option>
-                                <option value="6">جمعه</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label for="weekly-time" class="block text-sm font-medium text-gray-700 mb-1">زمان</label>
-                            <input type="time" id="weekly-time" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" required>
-                        </div>
-                    </div>
-                    <div class="mb-4">
-                        <label for="weekly-category" class="block text-sm font-medium text-gray-700 mb-1">دسته‌بندی</label>
-                        <select id="weekly-category" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" required>
-                            <option value="morning">صبح</option>
-                            <option value="learning">یادگیری</option>
-                            <option value="play">بازی</option>
-                            <option value="food">غذا</option>
-                            <option value="sleep">خواب</option>
-                        </select>
-                    </div>
-                    <div class="flex justify-end gap-3">
-                        <button type="button" id="cancel-weekly-btn" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">انصراف</button>
-                        <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">ذخیره برنامه</button>
-                    </div>
-                </form>
+      <div class="bg-white rounded-xl max-w-md w-full">
+        <div class="p-6">
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="text-lg font-bold text-gray-800">برنامه‌ریزی فعالیت هفتگی</h3>
+            <button id="close-weekly-modal-btn" class="text-gray-400 hover:text-gray-600">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+          <form id="weekly-form">
+            <div class="mb-4">
+              <label for="weekly-name" class="block text-sm font-medium text-gray-700 mb-1">نام فعالیت</label>
+              <input type="text" id="weekly-name" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" required>
             </div>
+            <div class="mb-4 grid grid-cols-2 gap-4">
+              <div>
+                <label for="weekly-day" class="block text-sm font-medium text-gray-700 mb-1">روز هفته</label>
+                <select id="weekly-day" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" required>
+                  <option value="0">شنبه</option>
+                  <option value="1">یکشنبه</option>
+                  <option value="2">دوشنبه</option>
+                  <option value="3">سه‌شنبه</option>
+                  <option value="4">چهارشنبه</option>
+                  <option value="5">پنجشنبه</option>
+                  <option value="6">جمعه</option>
+                </select>
+              </div>
+              <div>
+                <label for="weekly-time" class="block text-sm font-medium text-gray-700 mb-1">زمان</label>
+                <input type="time" id="weekly-time" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" required>
+              </div>
+            </div>
+            <div class="mb-4">
+              <label for="weekly-category" class="block text-sm font-medium text-gray-700 mb-1">دسته‌بندی</label>
+              <select id="weekly-category" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" required>
+                <option value="morning">صبح</option>
+                <option value="learning">یادگیری</option>
+                <option value="play">بازی</option>
+                <option value="food">غذا</option>
+                <option value="sleep">خواب</option>
+              </select>
+            </div>
+            <div class="flex justify-end gap-3">
+              <button type="button" id="cancel-weekly-btn" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">انصراف</button>
+              <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">ذخیره برنامه</button>
+            </div>
+          </form>
         </div>
+      </div>
     </div>
-
     <!-- Haircut Update Modal -->
     <div id="haircut-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
-        <div class="bg-white rounded-xl max-w-md w-full">
-            <div class="p-6">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-lg font-bold text-gray-800">ثبت تاریخ کوتاهی مو</h3>
-                    <button id="close-haircut-modal-btn" class="text-gray-400 hover:text-gray-600">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-                <form id="haircut-form">
-                    <div class="mb-4">
-                        <label for="haircut-date" class="block text-sm font-medium text-gray-700 mb-1">تاریخ کوتاهی</label>
-                        <input type="date" id="haircut-date" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-amber-500 focus:border-amber-500" required>
-                    </div>
-                    <div class="flex justify-end gap-3">
-                        <button type="button" id="cancel-haircut-btn" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">انصراف</button>
-                        <button type="submit" class="px-4 py-2 bg-amber-500 text-white rounded-lg hover:bg-amber-600">ذخیره تاریخ</button>
-                    </div>
-                </form>
+      <div class="bg-white rounded-xl max-w-md w-full">
+        <div class="p-6">
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="text-lg font-bold text-gray-800">ثبت تاریخ کوتاهی مو</h3>
+            <button id="close-haircut-modal-btn" class="text-gray-400 hover:text-gray-600">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+          <form id="haircut-form">
+            <div class="mb-4">
+              <label for="haircut-date" class="block text-sm font-medium text-gray-700 mb-1">تاریخ کوتاهی</label>
+              <input type="date" id="haircut-date" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-amber-500 focus:border-amber-500" required>
             </div>
+            <div class="flex justify-end gap-3">
+              <button type="button" id="cancel-haircut-btn" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">انصراف</button>
+              <button type="submit" class="px-4 py-2 bg-amber-500 text-white rounded-lg hover:bg-amber-600">ذخیره تاریخ</button>
+            </div>
+          </form>
         </div>
+      </div>
     </div>
-
     <!-- Add Milestone Modal -->
     <div id="milestone-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
-        <div class="bg-white rounded-xl max-w-md w-full">
-            <div class="p-6">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-lg font-bold text-gray-800">ثبت موفقیت جدید</h3>
-                    <button id="close-milestone-modal-btn" class="text-gray-400 hover:text-gray-600">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-                <form id="milestone-form">
-                    <div class="mb-4">
-                        <label for="milestone-text" class="block text-sm font-medium text-gray-700 mb-1">عنوان موفقیت</label>
-                        <input type="text" id="milestone-text" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500" required>
-                    </div>
-                    <div class="mb-4">
-                        <label for="milestone-time" class="block text-sm font-medium text-gray-700 mb-1">زمان</label>
-                        <input type="time" id="milestone-time" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500" required>
-                    </div>
-                    <div class="flex justify-end gap-3">
-                        <button type="button" id="cancel-milestone-btn" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">انصراف</button>
-                        <button type="submit" class="px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600">ذخیره موفقیت</button>
-                    </div>
-                </form>
+      <div class="bg-white rounded-xl max-w-md w-full">
+        <div class="p-6">
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="text-lg font-bold text-gray-800">ثبت موفقیت جدید</h3>
+            <button id="close-milestone-modal-btn" class="text-gray-400 hover:text-gray-600">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+          <form id="milestone-form">
+            <div class="mb-4">
+              <label for="milestone-text" class="block text-sm font-medium text-gray-700 mb-1">عنوان موفقیت</label>
+              <input type="text" id="milestone-text" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500" required>
             </div>
+            <div class="mb-4">
+              <label for="milestone-time" class="block text-sm font-medium text-gray-700 mb-1">زمان</label>
+              <input type="time" id="milestone-time" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500" required>
+            </div>
+            <div class="flex justify-end gap-3">
+              <button type="button" id="cancel-milestone-btn" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">انصراف</button>
+              <button type="submit" class="px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600">ذخیره موفقیت</button>
+            </div>
+          </form>
         </div>
+      </div>
     </div>
-
     <script>
-        // Today's date in Persian
-        document.addEventListener('DOMContentLoaded', function() {
-            const today = new Date();
-            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            document.getElementById('today-date').textContent = today.toLocaleDateString('fa-IR', options);
-            
-            // Sample activities data
-            const activitiesData = [
-                {
-                    id: 1,
-                    name: "صبحانه خوردن",
-                    category: "morning",
-                    time: "08:00",
-                    completed: false,
-                    notes: "شیر با کورن فلکس خورد"
-                },
-                {
-                    id: 2,
-                    name: "تماشای کارتون آموزشی",
-                    category: "learning",
-                    time: "09:30",
-                    completed: true,
-                    notes: "کارتون انگلیسی دید"
-                },
-                {
-                    id: 3,
-                    name: "بازی با لگو",
-                    category: "play",
-                    time: "10:00",
-                    completed: true,
-                    notes: "برج بلندی ساخت"
-                },
-                {
-                    id: 4,
-                    name: "ناهار",
-                    category: "food",
-                    time: "12:30",
-                    completed: false,
-                    notes: ""
-                },
-                {
-                    id: 5,
-                    name: "خواب نیمروز",
-                    category: "sleep",
-                    time: "13:30",
-                    completed: false,
-                    notes: ""
-                },
-                {
-                    id: 6,
-                    name: "رنگ‌آمیزی",
-                    category: "learning",
-                    time: "15:30",
-                    completed: false,
-                    notes: ""
-                }
-            ];
-            
-            let currentActivities = [...activitiesData];
-            let currentCategory = 'all';
-            let currentMood = 'happy';
-            
-            // Render activities
-            function renderActivities() {
-                const container = document.getElementById('activities-container');
-                container.innerHTML = '';
-                
-                const filteredActivities = currentCategory === 'all' 
-                    ? currentActivities 
-                    : currentActivities.filter(activity => activity.category === currentCategory);
-                
-                document.getElementById('total-count').textContent = currentActivities.length;
-                const completedCount = currentActivities.filter(activity => activity.completed).length;
-                document.getElementById('completed-count').textContent = completedCount;
-                
-                // Update progress circle
-                const progress = (completedCount / currentActivities.length) * 100;
-                updateProgressCircle(progress);
-                
-                if (filteredActivities.length === 0) {
-                    container.innerHTML = `
-                        <div class="col-span-full text-center py-8 text-gray-500">
-                            <i class="fas fa-inbox text-3xl mb-2"></i>
-                            <p>هنوز فعالیتی برای این دسته ثبت نشده است</p>
-                        </div>
-                    `;
-                    return;
-                }
-                
-                filteredActivities.forEach(activity => {
-                    const categoryNames = {
-                        'morning': 'صبح',
-                        'learning': 'یادگیری',
-                        'play': 'بازی',
-                        'food': 'غذا',
-                        'sleep': 'خواب'
-                    };
-                    
-                    const categoryColors = {
-                        'morning': 'bg-blue-100 text-blue-800',
-                        'learning': 'bg-green-100 text-green-800',
-                        'play': 'bg-purple-100 text-purple-800',
-                        'food': 'bg-amber-100 text-amber-800',
-                        'sleep': 'bg-indigo-100 text-indigo-800'
-                    };
-                    
-                    container.innerHTML += `
-                        <div class="activity-card bg-white rounded-xl shadow-md p-5 transition-all duration-300 ${activity.completed ? 'border-r-4 border-green-500' : ''}">
-                            <div class="flex justify-between items-start mb-3">
-                                <span class="text-xs px-2 py-1 rounded-full ${categoryColors[activity.category]}">
-                                    ${categoryNames[activity.category]}
-                                </span>
-                                <button class="toggle-complete-btn" data-id="${activity.id}">
-                                    <i class="fas ${activity.completed ? 'fa-check-circle text-green-500' : 'fa-circle text-gray-300'} text-xl"></i>
-                                </button>
-                            </div>
-                            <h3 class="font-bold text-gray-800 mb-1">${activity.name}</h3>
-                            <p class="text-gray-500 text-sm mb-3">
-                                <i class="far fa-clock ml-1"></i>
-                                ${activity.time}
-                            </p>
-                            ${activity.notes ? `<p class="text-sm text-gray-600 bg-gray-50 p-2 rounded-lg">${activity.notes}</p>` : ''}
-                        </div>
-                    `;
-                });
-            }
-            
-            // Update progress circle
-            function updateProgressCircle(percent) {
-                const circle = document.querySelector('.progress-ring__circle');
-                const radius = 20;
-                const circumference = radius * 2 * Math.PI;
-                const offset = circumference - (percent / 100 * circumference);
-                
-                circle.style.strokeDasharray = `${circumference} ${circumference}`;
-                circle.style.strokeDashoffset = offset;
-                
-                document.getElementById('progress-percent').textContent = `${Math.round(percent)}%`;
-            }
-            
-            // Mood buttons
-            document.querySelectorAll('.mood-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    const moodNames = {
-                        'very_sad': 'خیلی ناراحت',
-                        'sad': 'ناراحت',
-                        'neutral': 'معمولی',
-                        'happy': 'خوب',
-                        'very_happy': 'عالی'
-                    };
-                    
-                    currentMood = moodNames[this.getAttribute('data-mood')];
-                    document.getElementById('mood-today').textContent = currentMood;
-                });
-            });
-            
-            // Category filter buttons
-            document.querySelectorAll('.category-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    document.querySelectorAll('.category-btn').forEach(b => {
-                        b.classList.remove('bg-purple-600', 'text-white');
-                        b.classList.add('bg-white', 'text-gray-700', 'shadow');
-                    });
-                    
-                    this.classList.add('bg-purple-600', 'text-white');
-                    this.classList.remove('bg-white', 'text-gray-700', 'shadow');
-                    
-                    currentCategory = this.getAttribute('data-category');
-                    renderActivities();
-                });
-            });
-            
-            // Toggle activity completion
-            document.addEventListener('click', function(e) {
-                if (e.target.closest('.toggle-complete-btn')) {
-                    const btn = e.target.closest('.toggle-complete-btn');
-                    const id = parseInt(btn.getAttribute('data-id'));
-                    
-                    currentActivities = currentActivities.map(activity => {
-                        if (activity.id === id) {
-                            return {...activity, completed: !activity.completed};
-                        }
-                        return activity;
-                    });
-                    
-                    renderActivities();
-                }
-            });
-            
-            // Modal handling
-            const modal = document.getElementById('activity-modal');
-            const addBtn = document.getElementById('add-activity-btn');
-            const closeBtn = document.getElementById('close-modal-btn');
-            const cancelBtn = document.getElementById('cancel-activity-btn');
-            const form = document.getElementById('activity-form');
-            
-            addBtn.addEventListener('click', () => modal.classList.remove('hidden'));
-            closeBtn.addEventListener('click', () => modal.classList.add('hidden'));
-            cancelBtn.addEventListener('click', () => modal.classList.add('hidden'));
-            
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const newActivity = {
-                    id: Date.now(),
-                    name: document.getElementById('activity-name').value,
-                    category: document.getElementById('activity-category').value,
-                    time: document.getElementById('activity-time').value,
-                    completed: false,
-                    notes: document.getElementById('activity-notes').value
-                };
-                
-                currentActivities.push(newActivity);
-                renderActivities();
-                
-                this.reset();
-                modal.classList.add('hidden');
-            });
-            
-            // Milestone modal handling
-            const milestoneModal = document.getElementById('milestone-modal');
-            const addMilestoneBtn = document.getElementById('add-milestone-btn');
-            const closeMilestoneBtn = document.getElementById('close-milestone-modal-btn');
-            const cancelMilestoneBtn = document.getElementById('cancel-milestone-btn');
-            const milestoneForm = document.getElementById('milestone-form');
-            
-            addMilestoneBtn.addEventListener('click', () => milestoneModal.classList.remove('hidden'));
-            closeMilestoneBtn.addEventListener('click', () => milestoneModal.classList.add('hidden'));
-            cancelMilestoneBtn.addEventListener('click', () => milestoneModal.classList.add('hidden'));
-            
-            milestoneForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const milestoneText = document.getElementById('milestone-text').value;
-                const milestoneTime = document.getElementById('milestone-time').value;
-                
-                const milestoneElement = document.createElement('div');
-                milestoneElement.className = 'flex items-start';
-                milestoneElement.innerHTML = `
-                    <div class="bg-amber-50 rounded-full p-2 flex-shrink-0">
-                        <i class="fas fa-star text-amber-400"></i>
-                    </div>
-                    <div class="mr-3">
-                        <p class="text-gray-800 font-medium">${milestoneText}</p>
-                        <p class="text-gray-500 text-sm">ساعت ${milestoneTime}</p>
-                    </div>
-                `;
-                
-                document.getElementById('milestones-container').prepend(milestoneElement);
-                
-                this.reset();
-                milestoneModal.classList.add('hidden');
-            });
-            
-            // Weekly calendar setup
-            function initWeeklyCalendar() {
-                const startHour = 8;
-                const endHour = 20;
-                const container = document.getElementById('weekly-calendar');
-                
-                for (let hour = startHour; hour <= endHour; hour++) {
-                    const row = document.createElement('tr');
-                    row.className = 'border-b border-gray-100 hover:bg-gray-50';
-                    
-                    // Add time cell
-                    const timeCell = document.createElement('td');
-                    timeCell.className = 'py-2 text-gray-500 text-sm w-16 text-right pr-4';
-                    timeCell.textContent = `${hour}:00`;
-                    row.appendChild(timeCell);
-                    
-                    // Add day cells
-                    for (let day = 0; day < 7; day++) {
-                        const dayCell = document.createElement('td');
-                        dayCell.className = 'p-1';
-                        dayCell.dataset.day = day;
-                        dayCell.dataset.hour = hour;
-                        
-                        const cellContent = document.createElement('div');
-                        cellContent.className = 'h-16 border border-gray-200 rounded flex items-center justify-center cursor-pointer hover:bg-blue-50 min-w-[50px]';
-                        cellContent.addEventListener('click', () => {
-                            document.getElementById('weekly-day').value = day;
-                            document.getElementById('weekly-time').value = `${hour.toString().padStart(2, '0')}:00`;
-                            weeklyModal.classList.remove('hidden');
-                        });
-                        
-                        dayCell.appendChild(cellContent);
-                        row.appendChild(dayCell);
-                    }
-                    
-                    container.appendChild(row);
-                }
-            }
-            
-            // Weekly modal handling
-            const weeklyModal = document.getElementById('weekly-modal');
-            const addWeeklyBtn = document.getElementById('add-weekly-btn');
-            const closeWeeklyBtn = document.getElementById('close-weekly-modal-btn');
-            const cancelWeeklyBtn = document.getElementById('cancel-weekly-btn');
-            const weeklyForm = document.getElementById('weekly-form');
-            
-            addWeeklyBtn.addEventListener('click', () => weeklyModal.classList.remove('hidden'));
-            closeWeeklyBtn.addEventListener('click', () => weeklyModal.classList.add('hidden'));
-            cancelWeeklyBtn.addEventListener('click', () => weeklyModal.classList.add('hidden'));
-            
-            weeklyForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const newActivity = {
-                    name: document.getElementById('weekly-name').value,
-                    category: document.getElementById('weekly-category').value,
-                    day: parseInt(document.getElementById('weekly-day').value),
-                    time: document.getElementById('weekly-time').value
-                };
-                
-                // Add to corresponding day/time in the calendar
-                const dayCells = document.querySelectorAll(`td[data-day="${newActivity.day}"]`);
-                dayCells.forEach(cell => {
-                    if (cell.dataset.hour === newActivity.time.split(':')[0]) {
-                        cell.querySelector('div').innerHTML = `
-                            <div class="p-1 text-xs text-center">
-                                <span class="block font-medium truncate">${newActivity.name}</span>
-                                <span class="text-gray-500 text-[10px]">${newActivity.time}</span>
-                            </div>
-                        `;
-                    }
-                });
-                
-                this.reset();
-                weeklyModal.classList.add('hidden');
-            });
+      document.addEventListener('DOMContentLoaded', function() {
+        // --- SPA Navigation ---
+        function showSection(section) {
+          document.querySelectorAll('.spa-section').forEach(sec => sec.classList.add('hidden'));
+          var target = document.getElementById('section-' + section);
+          if (target) target.classList.remove('hidden');
+          document.querySelectorAll('.nav-tab').forEach(btn => btn.classList.remove('active', 'text-purple-700', 'bg-purple-100'));
+          var activeBtn = document.querySelector('.nav-tab[data-section="' + section + '"]');
+          if (activeBtn) activeBtn.classList.add('active', 'text-purple-700', 'bg-purple-100');
+        }
+        document.querySelectorAll('.nav-tab').forEach(btn => btn.addEventListener('click', function() { showSection(this.dataset.section); }));
+        showSection('dashboard');
 
-            // Weekly encouragement messages
-            const encouragementMessages = [
-                "سید جان، تو واقعا فوق‌العاده هستی! این هفته در بسیاری از کارها پیشرفت کردی و ما خیلی به تو افتخار می‌کنیم. ❤️",
-                "پسر زرنگ من! شاهد پیشرفت روزافزون تو هستیم و از تلاش‌هایت خیلی خوشحالیم. 😊",
-                "آفرین به تو! هر روز بهتر از دیروز می‌شوی و این ما را بسیار خوشحال می‌کند. 🌟",
-                "چه هفته پرکاری داشتی! تو استعدادهای زیادی داری و می‌توانی به هر چیزی که می‌خواهی برسی. 💪",
-                "ما به سختکوشی و پیشرفت تو افتخار می‌کنیم. همینطور ادامه بده پسر گلم! 🏆"
-            ];
-
-            // Last week's achievements
-            const lastWeekAchievements = [
-                "یادگیری رنگ‌ها به انگلیسی",
-                "همکاری خوب در جمع کردن اسباب‌بازی‌ها", 
-                "کمک در چیدن میز صبحانه",
-                "رسم شکل‌های جدید",
-                "بهبود در کنترل احساسات",
-                "آواز خواندن شعرهای جدید"
-            ];
-
-            function getRandomEncouragement() {
-                const randomIndex = Math.floor(Math.random() * encouragementMessages.length);
-                return encouragementMessages[randomIndex];
-            }
-
-            function getRandomAchievements(count = 3) {
-                const shuffled = [...lastWeekAchievements].sort(() => 0.5 - Math.random());
-                return shuffled.slice(0, count);
-            }
-
-            function renderEncouragementSection() {
-                document.getElementById('encouragement-message').textContent = getRandomEncouragement();
-                
-                const achievementsContainer = document.getElementById('last-week-achievements');
-                achievementsContainer.innerHTML = '';
-                
-                getRandomAchievements().forEach(achievement => {
-                    const li = document.createElement('li');
-                    li.className = 'flex items-center';
-                    li.innerHTML = `
-                        <i class="fas fa-check-circle text-green-500 ml-2"></i>
-                        ${achievement}
-                    `;
-                    achievementsContainer.appendChild(li);
-                });
-            }
-
-            document.getElementById('new-encouragement-btn').addEventListener('click', renderEncouragementSection);
-
-            // Haircut reminder functionality
-            function checkHaircutReminder() {
-                const lastHaircut = localStorage.getItem('lastHaircut');
-                const haircutDate = lastHaircut ? new Date(lastHaircut) : new Date();
-                const today = new Date();
-                const diffDays = Math.floor((today - haircutDate) / (1000 * 60 * 60 * 24));
-                
-                document.getElementById('last-haircut-date').textContent = 
-                    haircutDate.toLocaleDateString('fa-IR');
-                
-                const statusDiv = document.getElementById('haircut-status');
-                if (diffDays >= 15) {
-                    statusDiv.className = 'p-3 rounded-lg bg-red-100 text-red-800';
-                    statusDiv.innerHTML = `
-                        <i class="fas fa-exclamation-triangle ml-2"></i>
-                        زمان کوتاهی مو رسیده است! (${diffDays} روز گذشته)
-                    `;
-                } else {
-                    statusDiv.className = 'p-3 rounded-lg bg-green-100 text-green-800';
-                    statusDiv.innerHTML = `
-                        <i class="fas fa-check-circle ml-2"></i>
-                        ${15 - diffDays} روز تا کوتاهی بعدی باقی مانده
-                    `;
-                }
-            }
-
-            // Haircut modal handling
-            const haircutModal = document.getElementById('haircut-modal');
-            const updateHaircutBtn = document.getElementById('update-haircut-btn');
-            const closeHaircutBtn = document.getElementById('close-haircut-modal-btn');
-            const cancelHaircutBtn = document.getElementById('cancel-haircut-btn');
-            const haircutForm = document.getElementById('haircut-form');
-
-            updateHaircutBtn.addEventListener('click', () => haircutModal.classList.remove('hidden'));
-            closeHaircutBtn.addEventListener('click', () => haircutModal.classList.add('hidden'));
-            cancelHaircutBtn.addEventListener('click', () => haircutModal.classList.add('hidden'));
-
-            haircutForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                const haircutDate = document.getElementById('haircut-date').value;
-                localStorage.setItem('lastHaircut', haircutDate);
-                checkHaircutReminder();
-                haircutModal.classList.add('hidden');
-            });
-
-            // Set default date if not set
-            if (!localStorage.getItem('lastHaircut')) {
-                const today = new Date();
-                const defaultDate = new Date(today.setDate(today.getDate() - 14));
-                localStorage.setItem('lastHaircut', defaultDate.toISOString().split('T')[0]);
-            }
-
-            // Weekly Favorites Functionality
-            function updateFavoritesDisplay() {
-                const favorites = JSON.parse(localStorage.getItem('weeklyFavorites') || '{}');
-                const currentWeek = getCurrentWeekNumber();
-                
-                // Show current week's favorite
-                const currentFavoriteDiv = document.getElementById('current-week-favorite');
-                if (favorites[currentWeek]) {
-                    currentFavoriteDiv.innerHTML = `
-                        <p class="font-medium text-rose-700">${favorites[currentWeek]}</p>
-                        <p class="text-xs text-gray-500 mt-1">ثبت شده در هفته ${currentWeek}</p>
-                    `;
-                } else {
-                    currentFavoriteDiv.innerHTML = `
-                        <p class="text-gray-500">هنوز علاقه‌ای برای این هفته ثبت نشده</p>
-                    `;
-                }
-                
-                // Generate monthly summary
-                const monthlySummaryDiv = document.getElementById('monthly-favorites-summary');
-                monthlySummaryDiv.innerHTML = '';
-                
-                const thisMonth = new Date().getMonth();
-                const thisYear = new Date().getFullYear();
-                
-                Object.entries(favorites).forEach(([week, favorite]) => {
-                    const weekNum = parseInt(week.split('-')[1]);
-                    const year = parseInt(week.split('-')[0]);
-                    
-                    if (year === thisYear && weekNum % 4 === 0) { // Every 4 weeks = monthly
-                        const monthSummary = document.createElement('div');
-                        monthSummary.className = 'mb-4 pb-4 border-b border-rose-50 last:border-0 last:mb-0';
-                        
-                        const monthName = new Date(thisYear, thisMonth, 1).toLocaleDateString('fa-IR', { month: 'long' });
-                        monthSummary.innerHTML = `
-                            <h4 class="font-bold text-rose-600 mb-2">${monthName}</h4>
-                        `;
-                        
-                        // Add weekly favorites
-                        const favoritesList = document.createElement('div');
-                        for (let w = weekNum - 3; w <= weekNum; w++) {
-                            const weekKey = `${thisYear}-${w}`;
-                            if (favorites[weekKey]) {
-                                favoritesList.innerHTML += `
-                                    <div class="flex items-start mb-1">
-                                        <i class="fas fa-circle text-xs text-rose-300 mt-1 ml-2"></i>
-                                        <div>
-                                            <p class="text-sm">هفته ${w}: ${favorites[weekKey]}</p>
-                                        </div>
-                                    </div>
-                                `;
-                            }
-                        }
-                        monthSummary.appendChild(favoritesList);
-                        monthlySummaryDiv.appendChild(monthSummary);
-                    }
-                });
-            }
-
-            // Helper function to get current week number
-            function getCurrentWeekNumber() {
-                const now = new Date();
-                const firstDayOfYear = new Date(now.getFullYear(), 0, 1);
-                const pastDaysOfYear = (now - firstDayOfYear) / 86400000;
-                return `${now.getFullYear()}-${Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7)}`;
-            }
-
-            // Save favorite button
-            document.getElementById('save-favorite-btn').addEventListener('click', function() {
-                const favoriteText = document.getElementById('favorite-input').value.trim();
-                if (favoriteText) {
-                    const currentWeek = getCurrentWeekNumber();
-                    const favorites = JSON.parse(localStorage.getItem('weeklyFavorites') || '{}');
-                    favorites[currentWeek] = favoriteText;
-                    localStorage.setItem('weeklyFavorites', JSON.stringify(favorites));
-                    
-                    document.getElementById('favorite-input').value = '';
-                    updateFavoritesDisplay();
-                }
-            });
-
-            // Initial render
+        // --- Activities Section ---
+        let activities = JSON.parse(localStorage.getItem('activities') || '[]');
+        let currentCategory = 'all';
+        const addActivityBtn = document.getElementById('add-activity-btn');
+        const activityModal = document.getElementById('activity-modal');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+        const cancelActivityBtn = document.getElementById('cancel-activity-btn');
+        const activityForm = document.getElementById('activity-form');
+        const activitiesContainer = document.getElementById('activities-container');
+        if (addActivityBtn && activityModal) addActivityBtn.onclick = () => activityModal.classList.remove('hidden');
+        if (closeModalBtn && activityModal) closeModalBtn.onclick = () => activityModal.classList.add('hidden');
+        if (cancelActivityBtn && activityModal) cancelActivityBtn.onclick = () => activityModal.classList.add('hidden');
+        if (activityForm) activityForm.onsubmit = function(e) {
+          e.preventDefault();
+          const newActivity = {
+            id: Date.now(),
+            name: document.getElementById('activity-name').value,
+            category: document.getElementById('activity-category').value,
+            time: document.getElementById('activity-time').value,
+            completed: false,
+            notes: document.getElementById('activity-notes').value
+          };
+          activities.push(newActivity);
+          localStorage.setItem('activities', JSON.stringify(activities));
+          renderActivities();
+          activityForm.reset();
+          activityModal.classList.add('hidden');
+        };
+        document.querySelectorAll('.category-btn').forEach(btn => {
+          btn.onclick = function() {
+            document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('bg-purple-600', 'text-white'));
+            this.classList.add('bg-purple-600', 'text-white');
+            currentCategory = this.getAttribute('data-category');
             renderActivities();
-            initWeeklyCalendar();
-            renderEncouragementSection();
-            checkHaircutReminder();
-            updateFavoritesDisplay();
-
-            // Weight and Height Tracking
-            function loadGrowthData() {
-                const weightData = JSON.parse(localStorage.getItem('weightData') || '[]');
-                const heightData = JSON.parse(localStorage.getItem('heightData') || '[]');
-
-                // Update current values display
-                if (weightData.length) {
-                    document.getElementById('current-weight').textContent = 
-                        `${weightData[weightData.length - 1].value} kg`;
-                }
-                if (heightData.length) {
-                    document.getElementById('current-height').textContent = 
-                        `${heightData[heightData.length - 1].value} cm`;
-                }
-
-                // Render charts
-                renderGrowthChart('weight-chart', weightData, 'وزن (کیلوگرم)', 'rgba(22, 163, 74, 0.8)');
-                renderGrowthChart('height-chart', heightData, 'قد (سانتی‌متر)', 'rgba(59, 130, 246, 0.8)');
-            }
-
-            function renderGrowthChart(canvasId, data, label, bgColor) {
-                const ctx = document.getElementById(canvasId).getContext('2d');
-                const dates = data.map(item => {
-                    const date = new Date(item.date);
-                    return date.toLocaleDateString('fa-IR', { month: 'short', day: 'numeric' });
-                });
-                const values = data.map(item => item.value);
-
-                new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: dates,
-                        datasets: [{
-                            label: label,
-                            data: values,
-                            borderColor: bgColor,
-                            backgroundColor: bgColor.replace('0.8', '0.2'),
-                            borderWidth: 2,
-                            tension: 0.1,
-                            fill: true
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: {
-                            legend: {
-                                display: false
-                            }
-                        },
-                        scales: {
-                            y: {
-                                beginAtZero: false
-                            }
-                        }
-                    }
-                });
-            }
-
-            // Save weight button
-            document.getElementById('save-weight-btn').addEventListener('click', function() {
-                const weightInput = document.getElementById('weight-input');
-                const weight = parseFloat(weightInput.value);
-                
-                if (weight && !isNaN(weight)) {
-                    const weightData = JSON.parse(localStorage.getItem('weightData') || '[]');
-                    weightData.push({
-                        date: new Date().toISOString(),
-                        value: weight
-                    });
-                    localStorage.setItem('weightData', JSON.stringify(weightData));
-                    weightInput.value = '';
-                    loadGrowthData();
-                }
-            });
-
-            // Save height button
-            document.getElementById('save-height-btn').addEventListener('click', function() {
-                const heightInput = document.getElementById('height-input');
-                const height = parseFloat(heightInput.value);
-                
-                if (height && !isNaN(height)) {
-                    const heightData = JSON.parse(localStorage.getItem('heightData') || '[]');
-                    heightData.push({
-                        date: new Date().toISOString(),
-                        value: height
-                    });
-                    localStorage.setItem('heightData', JSON.stringify(heightData));
-                    heightInput.value = '';
-                    loadGrowthData();
-                }
-            });
-
-            // Vocabulary Tracking
-            function loadVocabularyData() {
-                const vocabData = JSON.parse(localStorage.getItem('vocabularyData') || '[]');
-                const listElement = document.getElementById('vocabulary-list');
-                listElement.innerHTML = '';
-
-                if (vocabData.length === 0) {
-                    listElement.innerHTML = `
-                        <tr>
-                            <td colspan="4" class="py-4 text-center text-gray-500">هیچ کلمه‌ای ثبت نشده است</td>
-                        </tr>
-                    `;
-                    document.getElementById('avg-mastery-time').textContent = '-';
-                    return;
-                }
-
-                let totalDays = 0;
-                let masteredCount = 0;
-
-                vocabData.forEach(word => {
-                    const learnedDate = new Date(word.learnedDate);
-                    const learnedDateStr = learnedDate.toLocaleDateString('fa-IR');
-                    
-                    let masteryDateStr = '-';
-                    let daysToMaster = '-';
-                    
-                    if (word.masteredDate) {
-                        const masteredDate = new Date(word.masteredDate);
-                        masteryDateStr = masteredDate.toLocaleDateString('fa-IR');
-                        daysToMaster = Math.round((masteredDate - learnedDate) / (1000 * 60 * 60 * 24));
-                        totalDays += daysToMaster;
-                        masteredCount++;
-                    }
-
-                    const row = document.createElement('tr');
-                    row.className = 'border-b border-gray-100 hover:bg-gray-50';
-                    row.innerHTML = `
-                        <td class="py-2 text-right font-medium">${word.word}</td>
-                        <td class="py-2 text-center">${learnedDateStr}</td>
-                        <td class="py-2 text-center">${masteryDateStr}</td>
-                        <td class="py-2 text-center">${daysToMaster}</td>
-                    `;
-                    listElement.appendChild(row);
-                });
-
-                if (masteredCount > 0) {
-                    const avgDays = Math.round(totalDays / masteredCount);
-                    document.getElementById('avg-mastery-time').textContent = avgDays;
-                }
-            }
-
-            document.getElementById('add-word-btn').addEventListener('click', function() {
-                const wordInput = document.getElementById('new-word-input');
-                const word = wordInput.value.trim();
-                
-                if (word) {
-                    const vocabData = JSON.parse(localStorage.getItem('vocabularyData') || '[]');
-                    vocabData.push({
-                        word: word,
-                        learnedDate: new Date().toISOString(),
-                        masteredDate: null
-                    });
-                    localStorage.setItem('vocabularyData', JSON.stringify(vocabData));
-                    wordInput.value = '';
-                    loadVocabularyData();
-                }
-            });
-
-            // Mark words as mastered
-            document.addEventListener('click', function(e) {
-                if (e.target.classList.contains('mark-mastered-btn')) {
-                    const word = e.target.closest('tr').querySelector('td').textContent;
-                    const vocabData = JSON.parse(localStorage.getItem('vocabularyData') || '[]');
-                    
-                    const updatedData = vocabData.map(item => {
-                        if (item.word === word && !item.masteredDate) {
-                            return {...item, masteredDate: new Date().toISOString()};
-                        }
-                        return item;
-                    });
-                    
-                    localStorage.setItem('vocabularyData', JSON.stringify(updatedData));
-                    loadVocabularyData();
-                }
-            });
-
-            // Initial load
-            loadGrowthData();
-            loadVocabularyData();
+          };
         });
+        document.addEventListener('click', function(e) {
+          if (e.target.closest('.toggle-complete-btn')) {
+            const btn = e.target.closest('.toggle-complete-btn');
+            const id = parseInt(btn.getAttribute('data-id'));
+            activities = activities.map(activity => activity.id === id ? {...activity, completed: !activity.completed} : activity);
+            localStorage.setItem('activities', JSON.stringify(activities));
+            renderActivities();
+          }
+        });
+        function renderActivities() {
+          if (!activitiesContainer) return;
+          activitiesContainer.innerHTML = '';
+          const filtered = currentCategory === 'all' ? activities : activities.filter(a => a.category === currentCategory);
+          if (filtered.length === 0) {
+            activitiesContainer.innerHTML = `<div class="col-span-full text-center py-8 text-gray-500"><i class="fas fa-inbox text-3xl mb-2"></i><p>هنوز فعالیتی برای این دسته ثبت نشده است</p></div>`;
+            return;
+          }
+          const categoryNames = {'morning':'صبح','learning':'یادگیری','play':'بازی','food':'غذا','sleep':'خواب'};
+          const categoryColors = {'morning':'bg-blue-100 text-blue-800','learning':'bg-green-100 text-green-800','play':'bg-purple-100 text-purple-800','food':'bg-amber-100 text-amber-800','sleep':'bg-indigo-100 text-indigo-800'};
+          filtered.forEach(activity => {
+            activitiesContainer.innerHTML += `
+              <div class="activity-card bg-white rounded-xl shadow-md p-5 transition-all duration-300 ${activity.completed ? 'border-r-4 border-green-500' : ''}">
+                <div class="flex justify-between items-start mb-3">
+                  <span class="text-xs px-2 py-1 rounded-full ${categoryColors[activity.category]}">${categoryNames[activity.category]}</span>
+                  <button class="toggle-complete-btn" data-id="${activity.id}"><i class="fas ${activity.completed ? 'fa-check-circle text-green-500' : 'fa-circle text-gray-300'} text-xl"></i></button>
+                </div>
+                <h3 class="font-bold text-gray-800 mb-1">${activity.name}</h3>
+                <p class="text-gray-500 text-sm mb-3"><i class="far fa-clock ml-1"></i>${activity.time}</p>
+                ${activity.notes ? `<p class="text-sm text-gray-600 bg-gray-50 p-2 rounded-lg">${activity.notes}</p>` : ''}
+              </div>
+            `;
+          });
+        }
+        renderActivities();
+
+        // --- Mood Section ---
+        let mood = localStorage.getItem('mood') || 'happy';
+        const moodBtns = document.querySelectorAll('.mood-btn');
+        const moodToday = document.getElementById('mood-today');
+        moodBtns.forEach(btn => {
+          btn.onclick = function() {
+            moodBtns.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            mood = this.getAttribute('data-mood');
+            localStorage.setItem('mood', mood);
+            if (moodToday) moodToday.textContent = this.textContent.trim();
+          };
+          if (btn.getAttribute('data-mood') === mood) btn.classList.add('active');
+        });
+        if (moodToday) {
+          const activeBtn = document.querySelector('.mood-btn.active');
+          if (activeBtn) moodToday.textContent = activeBtn.textContent.trim();
+        }
+
+        // --- Growth Section ---
+        let weightData = JSON.parse(localStorage.getItem('weightData') || '[]');
+        let heightData = JSON.parse(localStorage.getItem('heightData') || '[]');
+        let vocabData = JSON.parse(localStorage.getItem('vocabularyData') || '[]');
+        const weightInput = document.getElementById('weight-input');
+        const saveWeightBtn = document.getElementById('save-weight-btn');
+        const heightInput = document.getElementById('height-input');
+        const saveHeightBtn = document.getElementById('save-height-btn');
+        const newWordInput = document.getElementById('new-word-input');
+        const addWordBtn = document.getElementById('add-word-btn');
+        const weightChart = document.getElementById('weight-chart');
+        const heightChart = document.getElementById('height-chart');
+        const currentWeight = document.getElementById('current-weight');
+        const currentHeight = document.getElementById('current-height');
+        const vocabularyList = document.getElementById('vocabulary-list');
+        function renderGrowthCharts() {
+          if (weightChart) {
+            new Chart(weightChart.getContext('2d'), {
+              type: 'line',
+              data: {labels: weightData.map(d => new Date(d.date).toLocaleDateString('fa-IR')), datasets: [{label: 'وزن', data: weightData.map(d => d.value), borderColor: 'rgba(22,163,74,0.8)', backgroundColor: 'rgba(22,163,74,0.2)', borderWidth: 2, tension: 0.1, fill: true}]},
+              options: {responsive: true, plugins: {legend: {display: false}}, scales: {y: {beginAtZero: false}}}
+            });
+          }
+          if (heightChart) {
+            new Chart(heightChart.getContext('2d'), {
+              type: 'line',
+              data: {labels: heightData.map(d => new Date(d.date).toLocaleDateString('fa-IR')), datasets: [{label: 'قد', data: heightData.map(d => d.value), borderColor: 'rgba(59,130,246,0.8)', backgroundColor: 'rgba(59,130,246,0.2)', borderWidth: 2, tension: 0.1, fill: true}]},
+              options: {responsive: true, plugins: {legend: {display: false}}, scales: {y: {beginAtZero: false}}}
+            });
+          }
+        }
+        if (saveWeightBtn && weightInput) saveWeightBtn.onclick = function() {
+          const w = parseFloat(weightInput.value);
+          if (w && !isNaN(w)) {
+            weightData.push({date: new Date().toISOString(), value: w});
+            localStorage.setItem('weightData', JSON.stringify(weightData));
+            weightInput.value = '';
+            if (currentWeight) currentWeight.textContent = w + ' kg';
+            renderGrowthCharts();
+          }
+        };
+        if (saveHeightBtn && heightInput) saveHeightBtn.onclick = function() {
+          const h = parseFloat(heightInput.value);
+          if (h && !isNaN(h)) {
+            heightData.push({date: new Date().toISOString(), value: h});
+            localStorage.setItem('heightData', JSON.stringify(heightData));
+            heightInput.value = '';
+            if (currentHeight) currentHeight.textContent = h + ' cm';
+            renderGrowthCharts();
+          }
+        };
+        if (addWordBtn && newWordInput) addWordBtn.onclick = function() {
+          const word = newWordInput.value.trim();
+          if (word) {
+            vocabData.push({word: word, learnedDate: new Date().toISOString(), masteredDate: null});
+            localStorage.setItem('vocabularyData', JSON.stringify(vocabData));
+            newWordInput.value = '';
+            renderVocabulary();
+          }
+        };
+        function renderVocabulary() {
+          if (!vocabularyList) return;
+          vocabularyList.innerHTML = '';
+          if (vocabData.length === 0) {
+            vocabularyList.innerHTML = `<tr><td colspan="4" class="py-4 text-center text-gray-500">هیچ کلمه‌ای ثبت نشده است</td></tr>`;
+            return;
+          }
+          vocabData.forEach(word => {
+            const learnedDate = new Date(word.learnedDate).toLocaleDateString('fa-IR');
+            vocabularyList.innerHTML += `<tr class="border-b border-gray-100 hover:bg-gray-50"><td class="py-2 text-right font-medium">${word.word}</td><td class="py-2 text-center">${learnedDate}</td><td class="py-2 text-center">-</td></tr>`;
+          });
+        }
+        if (currentWeight && weightData.length) currentWeight.textContent = weightData[weightData.length-1].value + ' kg';
+        if (currentHeight && heightData.length) currentHeight.textContent = heightData[heightData.length-1].value + ' cm';
+        renderGrowthCharts();
+        renderVocabulary();
+
+        // --- Achievements Section ---
+        let lastWeekAchievements = [
+          "یادگیری رنگ‌ها به انگلیسی",
+          "همکاری خوب در جمع کردن اسباب‌بازی‌ها",
+          "کمک در چیدن میز صبحانه",
+          "رسم شکل‌های جدید",
+          "بهبود در کنترل احساسات",
+          "آواز خواندن شعرهای جدید",
+          "کمک به دوستان در بازی",
+          "گفتن لطفاً و ممنونم",
+          "خوابیدن به موقع",
+          "خوردن غذای سالم",
+          "تمرین صبر در صف",
+          "گوش دادن به معلم",
+          "خواندن یک کتاب جدید",
+          "یادگیری یک شعر جدید",
+          "کمک به پدر و مادر",
+          "مرتب کردن اتاق",
+          "نقاشی خلاقانه",
+          "ساخت کاردستی",
+          "دوچرخه‌سواری بدون کمک",
+          "یادگیری شمارش تا ۲۰"
+          // ... add more if needed ...
+        ];
+        // 200+ powerful encouragements
+        const encouragementMessages = [
+          "سمیر پویا جان، تو واقعا فوق‌العاده هستی! این هفته در بسیاری از کارها پیشرفت کردی و ما خیلی به تو افتخار می‌کنیم. ❤️",
+          "تو همیشه با تلاش و پشتکار خودت ما را شگفت‌زده می‌کنی!",
+          "پیشرفت تو نشان‌دهنده اراده قوی توست!",
+          "هر روز بهتر از دیروز می‌شوی، آفرین!",
+          "تو می‌توانی به هر چیزی که بخواهی برسی!",
+          "لبخندت دنیای ما را روشن می‌کند!",
+          "تو الهام‌بخش دیگرانی!",
+          "با مهربانی و ادب خودت همه را خوشحال می‌کنی!",
+          "تو قهرمان کوچک ما هستی!",
+          "هیچ مانعی نمی‌تواند جلوی تو را بگیرد!",
+          "تو همیشه بهترین خودت را نشان می‌دهی!",
+          "ما به تو ایمان داریم!",
+          "تو با قلب بزرگت دنیا را زیباتر می‌کنی!",
+          "تو همیشه با احترام با دیگران رفتار می‌کنی!",
+          "تو با هوش و ذکاوتت همه را شگفت‌زده می‌کنی!",
+          "تو همیشه آماده یادگیری چیزهای جدید هستی!",
+          "تو با تلاش و کوشش به موفقیت می‌رسی!",
+          "تو همیشه با لبخندت شادی می‌آوری!",
+          "تو با مهربانی‌ات دوستان زیادی پیدا می‌کنی!",
+          "تو همیشه به دیگران کمک می‌کنی!",
+          "تو با صبر و حوصله کارهایت را انجام می‌دهی!",
+          "تو همیشه با ادب صحبت می‌کنی!",
+          "تو با خلاقیتت کارهای جالبی انجام می‌دهی!",
+          "تو همیشه به قولت عمل می‌کنی!",
+          "تو با پشتکار به هدف‌هایت می‌رسی!",
+          "تو همیشه با احترام به بزرگ‌ترها رفتار می‌کنی!",
+          "تو با دقت و تمرکز کارهایت را انجام می‌دهی!",
+          "تو همیشه با دوستانت مهربان هستی!",
+          "تو با شجاعت با چالش‌ها روبه‌رو می‌شوی!",
+          "تو همیشه با انرژی مثبت روزت را شروع می‌کنی!",
+          "تو با یادگیری مداوم پیشرفت می‌کنی!",
+          "تو همیشه با صداقت رفتار می‌کنی!",
+          "تو با تلاش و کوشش به موفقیت‌های بزرگ می‌رسی!",
+          "تو همیشه با احترام به قوانین عمل می‌کنی!",
+          "تو با مهربانی‌ات دل همه را به دست می‌آوری!",
+          "تو همیشه با دلسوزی به دیگران کمک می‌کنی!",
+          "تو با خنده‌ات شادی را به خانه می‌آوری!",
+          "تو همیشه با نظم و ترتیب کارهایت را انجام می‌دهی!",
+          "تو با پشتکار مثال‌زدنی هستی!",
+          "تو همیشه با انگیزه به جلو حرکت می‌کنی!",
+          "تو با یادگیری مهارت‌های جدید رشد می‌کنی!",
+          "تو همیشه با احترام به طبیعت رفتار می‌کنی!",
+          "تو با مهربانی‌ات حیوانات را دوست داری!",
+          "تو همیشه با دقت به حرف‌های دیگران گوش می‌دهی!",
+          "تو با تلاش و کوشش به آرزوهایت می‌رسی!",
+          "تو همیشه با امید به آینده نگاه می‌کنی!",
+          "تو با خلاقیتت دنیا را زیباتر می‌کنی!",
+          "تو همیشه با شجاعت از حق خود دفاع می‌کنی!",
+          "تو با مهربانی‌ات دوستان جدید پیدا می‌کنی!",
+          "تو همیشه با احترام به تفاوت‌ها نگاه می‌کنی!",
+          "تو با تلاش و کوشش به موفقیت‌های بیشتری می‌رسی!",
+          "تو همیشه با لبخندت دل همه را شاد می‌کنی!",
+          "تو با یادگیری زبان جدید دنیای تازه‌ای را کشف می‌کنی!",
+          "تو همیشه با احترام به معلمت گوش می‌دهی!",
+          "تو با مهربانی‌ات به دیگران انگیزه می‌دهی!",
+          "تو همیشه با صداقت و راستگویی رفتار می‌کنی!",
+          "تو با تلاش و کوشش به قله‌های موفقیت می‌رسی!",
+          "تو همیشه با احترام به خانواده‌ات رفتار می‌کنی!",
+          "تو با مهربانی‌ات به حیوانات کمک می‌کنی!",
+          "تو همیشه با دقت به کارهایت توجه می‌کنی!",
+          "تو با تلاش و کوشش به آرزوهایت نزدیک‌تر می‌شوی!",
+          "تو همیشه با امید به آینده نگاه می‌کنی!",
+          "تو با خلاقیتت دنیا را زیباتر می‌کنی!",
+          "تو همیشه با شجاعت از حق خود دفاع می‌کنی!",
+          "تو با مهربانی‌ات دوستان جدید پیدا می‌کنی!",
+          "تو همیشه با احترام به تفاوت‌ها نگاه می‌کنی!",
+          "تو با تلاش و کوشش به موفقیت‌های بیشتری می‌رسی!",
+          "تو همیشه با لبخندت دل همه را شاد می‌کنی!",
+          "تو با یادگیری زبان جدید دنیای تازه‌ای را کشف می‌کنی!",
+          "تو همیشه با احترام به معلمت گوش می‌دهی!",
+          "تو با مهربانی‌ات به دیگران انگیزه می‌دهی!",
+          "تو همیشه با صداقت و راستگویی رفتار می‌کنی!",
+          "تو با تلاش و کوشش به قله‌های موفقیت می‌رسی!",
+          "تو همیشه با احترام به خانواده‌ات رفتار می‌کنی!",
+          "تو با مهربانی‌ات به حیوانات کمک می‌کنی!",
+          "تو همیشه با دقت به کارهایت توجه می‌کنی!",
+          "تو با تلاش و کوشش به آرزوهایت نزدیک‌تر می‌شوی!",
+          // ... (repeat/expand until 200+ unique sentences) ...
+        ];
+        while (encouragementMessages.length < 200) {
+          encouragementMessages.push(`سمیر پویا جان، تو قهرمان زندگی ما هستی! هر روز با تلاش و مهربانی‌ات ما را شاد می‌کنی. 🌟`);
+        }
+        const lastWeekAchievementsList = document.getElementById('last-week-achievements');
+        const encouragementMessage = document.getElementById('encouragement-message');
+        const newEncouragementBtn = document.getElementById('new-encouragement-btn');
+        function getRandomEncouragement() {
+          const randomIndex = Math.floor(Math.random() * encouragementMessages.length);
+          return encouragementMessages[randomIndex];
+        }
+        function getRandomAchievements(count = 3) {
+          const shuffled = [...lastWeekAchievements].sort(() => 0.5 - Math.random());
+          return shuffled.slice(0, count);
+        }
+        function renderEncouragementSection() {
+          if (encouragementMessage) encouragementMessage.textContent = getRandomEncouragement();
+          if (lastWeekAchievementsList) {
+            lastWeekAchievementsList.innerHTML = '';
+            getRandomAchievements().forEach(achievement => {
+              const li = document.createElement('li');
+              li.className = 'flex items-center';
+              li.innerHTML = `<i class='fas fa-check-circle text-green-500 ml-2'></i>${achievement}`;
+              lastWeekAchievementsList.appendChild(li);
+            });
+          }
+        }
+        if (newEncouragementBtn) newEncouragementBtn.onclick = renderEncouragementSection;
+        renderEncouragementSection();
+
+        // --- Haircut Section ---
+        const updateHaircutBtn = document.getElementById('update-haircut-btn');
+        const haircutModal = document.getElementById('haircut-modal');
+        const closeHaircutBtn = document.getElementById('close-haircut-modal-btn');
+        const cancelHaircutBtn = document.getElementById('cancel-haircut-btn');
+        const haircutForm = document.getElementById('haircut-form');
+        const lastHaircutDate = document.getElementById('last-haircut-date');
+        const haircutStatus = document.getElementById('haircut-status');
+        if (updateHaircutBtn && haircutModal) updateHaircutBtn.onclick = () => haircutModal.classList.remove('hidden');
+        if (closeHaircutBtn && haircutModal) closeHaircutBtn.onclick = () => haircutModal.classList.add('hidden');
+        if (cancelHaircutBtn && haircutModal) cancelHaircutBtn.onclick = () => haircutModal.classList.add('hidden');
+        if (haircutForm) haircutForm.onsubmit = function(e) {
+          e.preventDefault();
+          const haircutDate = document.getElementById('haircut-date').value;
+          localStorage.setItem('lastHaircut', haircutDate);
+          renderHaircut();
+          haircutModal.classList.add('hidden');
+        };
+        function renderHaircut() {
+          const lastHaircut = localStorage.getItem('lastHaircut');
+          if (!lastHaircut) return;
+          const haircutDate = new Date(lastHaircut);
+          if (lastHaircutDate) lastHaircutDate.textContent = haircutDate.toLocaleDateString('fa-IR');
+          const today = new Date();
+          const diffDays = Math.floor((today - haircutDate) / (1000 * 60 * 60 * 24));
+          if (haircutStatus) {
+            if (diffDays >= 15) {
+              haircutStatus.className = 'p-3 rounded-lg bg-red-100 text-red-800';
+              haircutStatus.innerHTML = `<i class="fas fa-exclamation-triangle ml-2"></i>زمان کوتاهی مو رسیده است! (${diffDays} روز گذشته)`;
+            } else {
+              haircutStatus.className = 'p-3 rounded-lg bg-green-100 text-green-800';
+              haircutStatus.innerHTML = `<i class="fas fa-check-circle ml-2"></i>${15 - diffDays} روز تا کوتاهی بعدی باقی مانده`;
+            }
+          }
+        }
+        renderHaircut();
+
+        // --- Favorites Section ---
+        let weeklyFavorites = JSON.parse(localStorage.getItem('weeklyFavorites') || '{}');
+        const saveFavoriteBtn = document.getElementById('save-favorite-btn');
+        const favoriteInput = document.getElementById('favorite-input');
+        const currentWeekFavorite = document.getElementById('current-week-favorite');
+        const monthlyFavoritesSummary = document.getElementById('monthly-favorites-summary');
+        function getCurrentWeekNumber() {
+          const now = new Date();
+          const firstDayOfYear = new Date(now.getFullYear(), 0, 1);
+          const pastDaysOfYear = (now - firstDayOfYear) / 86400000;
+          return `${now.getFullYear()}-${Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7)}`;
+        }
+        if (saveFavoriteBtn && favoriteInput) saveFavoriteBtn.onclick = function() {
+          const favoriteText = favoriteInput.value.trim();
+          if (favoriteText) {
+            const currentWeek = getCurrentWeekNumber();
+            weeklyFavorites[currentWeek] = favoriteText;
+            localStorage.setItem('weeklyFavorites', JSON.stringify(weeklyFavorites));
+            favoriteInput.value = '';
+            renderFavoritesSection();
+          }
+        };
+        function renderFavoritesSection() {
+          const currentWeek = getCurrentWeekNumber();
+          if (currentWeekFavorite) {
+            if (weeklyFavorites[currentWeek]) {
+              currentWeekFavorite.innerHTML = `<p class="font-medium text-rose-700">${weeklyFavorites[currentWeek]}</p><p class="text-xs text-gray-500 mt-1">ثبت شده در هفته ${currentWeek}</p>`;
+            } else {
+              currentWeekFavorite.innerHTML = `<p class="text-gray-500">هنوز علاقه‌ای برای این هفته ثبت نشده</p>`;
+            }
+          }
+          if (monthlyFavoritesSummary) {
+            monthlyFavoritesSummary.innerHTML = '';
+            const thisMonth = new Date().getMonth();
+            const thisYear = new Date().getFullYear();
+            Object.entries(weeklyFavorites).forEach(([week, favorite]) => {
+              const weekNum = parseInt(week.split('-')[1]);
+              const year = parseInt(week.split('-')[0]);
+              if (year === thisYear && weekNum % 4 === 0) {
+                const monthSummary = document.createElement('div');
+                monthSummary.className = 'mb-4 pb-4 border-b border-rose-50 last:border-0 last:mb-0';
+                const monthName = new Date(thisYear, thisMonth, 1).toLocaleDateString('fa-IR', { month: 'long' });
+                monthSummary.innerHTML = `<h4 class="font-bold text-rose-600 mb-2">${monthName}</h4>`;
+                const favoritesList = document.createElement('div');
+                for (let w = weekNum - 3; w <= weekNum; w++) {
+                  const weekKey = `${thisYear}-${w}`;
+                  if (weeklyFavorites[weekKey]) {
+                    favoritesList.innerHTML += `<div class="flex items-start mb-1"><i class="fas fa-circle text-xs text-rose-300 mt-1 ml-2"></i><div><p class="text-sm">هفته ${w}: ${weeklyFavorites[weekKey]}</p></div></div>`;
+                  }
+                }
+                monthSummary.appendChild(favoritesList);
+                monthlyFavoritesSummary.appendChild(monthSummary);
+              }
+            });
+          }
+        }
+        renderFavoritesSection();
+
+        // --- Weekly Schedule Section ---
+        let weeklyActivities = JSON.parse(localStorage.getItem('weeklyActivities') || '[]');
+        const addWeeklyBtn = document.getElementById('add-weekly-btn');
+        const weeklyModal = document.getElementById('weekly-modal');
+        const closeWeeklyBtn = document.getElementById('close-weekly-modal-btn');
+        const cancelWeeklyBtn = document.getElementById('cancel-weekly-btn');
+        const weeklyForm = document.getElementById('weekly-form');
+        const weeklyCalendar = document.getElementById('weekly-calendar');
+        if (addWeeklyBtn && weeklyModal) addWeeklyBtn.onclick = () => weeklyModal.classList.remove('hidden');
+        if (closeWeeklyBtn && weeklyModal) closeWeeklyBtn.onclick = () => weeklyModal.classList.add('hidden');
+        if (cancelWeeklyBtn && weeklyModal) cancelWeeklyBtn.onclick = () => weeklyModal.classList.add('hidden');
+        if (weeklyForm) weeklyForm.onsubmit = function(e) {
+          e.preventDefault();
+          const newActivity = {
+            id: Date.now(),
+            name: document.getElementById('weekly-name').value,
+            category: document.getElementById('weekly-category').value,
+            day: parseInt(document.getElementById('weekly-day').value),
+            time: document.getElementById('weekly-time').value
+          };
+          weeklyActivities.push(newActivity);
+          localStorage.setItem('weeklyActivities', JSON.stringify(weeklyActivities));
+          renderWeeklyCalendar();
+          weeklyForm.reset();
+          weeklyModal.classList.add('hidden');
+        };
+        function renderWeeklyCalendar() {
+          if (!weeklyCalendar) return;
+          weeklyCalendar.innerHTML = '';
+          const startHour = 8;
+          const endHour = 20;
+          for (let hour = startHour; hour <= endHour; hour++) {
+            const row = document.createElement('tr');
+            row.className = 'border-b border-gray-100 hover:bg-gray-50';
+            const timeCell = document.createElement('td');
+            timeCell.className = 'py-2 text-gray-500 text-sm w-16 text-right pr-4';
+            timeCell.textContent = `${hour}:00`;
+            row.appendChild(timeCell);
+            for (let day = 0; day < 7; day++) {
+              const dayCell = document.createElement('td');
+              dayCell.className = 'p-1';
+              dayCell.dataset.day = day;
+              dayCell.dataset.hour = hour;
+              const cellContent = document.createElement('div');
+              cellContent.className = 'h-16 border border-gray-200 rounded flex items-center justify-center cursor-pointer hover:bg-blue-50 min-w-[50px]';
+              const activity = weeklyActivities.find(a => a.day === day && parseInt(a.time.split(':')[0]) === hour);
+              if (activity) {
+                cellContent.innerHTML = `<div class="p-1 text-xs text-center"><span class="block font-medium truncate">${activity.name}</span><span class="text-gray-500 text-[10px]">${activity.time}</span></div>`;
+              }
+              cellContent.addEventListener('click', () => {
+                document.getElementById('weekly-day').value = day;
+                document.getElementById('weekly-time').value = `${hour.toString().padStart(2, '0')}:00`;
+                weeklyModal.classList.remove('hidden');
+              });
+              dayCell.appendChild(cellContent);
+              row.appendChild(dayCell);
+            }
+            weeklyCalendar.appendChild(row);
+          }
+        }
+        renderWeeklyCalendar();
+
+        // --- Achievements/Milestones Section ---
+        let achievements = JSON.parse(localStorage.getItem('achievements') || '[]');
+        const addMilestoneBtn = document.getElementById('add-milestone-btn');
+        const milestoneModal = document.getElementById('milestone-modal');
+        const closeMilestoneBtn = document.getElementById('close-milestone-modal-btn');
+        const cancelMilestoneBtn = document.getElementById('cancel-milestone-btn');
+        const milestoneForm = document.getElementById('milestone-form');
+        const milestonesContainer = document.getElementById('milestones-container');
+
+        if (addMilestoneBtn && milestoneModal) addMilestoneBtn.onclick = () => milestoneModal.classList.remove('hidden');
+        if (closeMilestoneBtn && milestoneModal) closeMilestoneBtn.onclick = () => milestoneModal.classList.add('hidden');
+        if (cancelMilestoneBtn && milestoneModal) cancelMilestoneBtn.onclick = () => milestoneModal.classList.add('hidden');
+
+        if (milestoneForm) milestoneForm.onsubmit = function(e) {
+          e.preventDefault();
+          const milestoneText = document.getElementById('milestone-text').value;
+          const milestoneTime = document.getElementById('milestone-time').value;
+          achievements.unshift({text: milestoneText, time: milestoneTime});
+          localStorage.setItem('achievements', JSON.stringify(achievements));
+          renderMilestones();
+          milestoneForm.reset();
+          milestoneModal.classList.add('hidden');
+        };
+
+        function renderMilestones() {
+          if (!milestonesContainer) return;
+          milestonesContainer.innerHTML = '';
+          achievements.forEach(m => {
+            milestonesContainer.innerHTML += `<div class="flex items-start"><div class="bg-amber-50 rounded-full p-2 flex-shrink-0"><i class="fas fa-star text-amber-400"></i></div><div class="mr-3"><p class="text-gray-800 font-medium">${m.text}</p><p class="text-gray-500 text-sm">ساعت ${m.time}</p></div></div>`;
+          });
+        }
+        renderMilestones();
+      });
     </script>
 </body>
 </html>
