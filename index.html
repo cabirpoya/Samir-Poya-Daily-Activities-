@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
@@ -23,6 +22,11 @@
         }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#8b5cf6">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="برنامه روزانه سمیر پویا">
 </head>
 <body class="bg-gradient-to-b from-blue-50 to-purple-50 min-h-screen" dir="rtl">
     <!-- Fixed Header Navigation (SPA Tabs) -->
@@ -1036,6 +1040,17 @@
         }
         renderMilestones();
       });
+    </script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('service-worker.js').then(function(registration) {
+            // Registration successful
+          }, function(err) {
+            // Registration failed
+          });
+        });
+      }
     </script>
 </body>
 </html>
